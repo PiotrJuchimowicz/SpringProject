@@ -16,4 +16,7 @@ public interface TaskRepository extends GenericRepository<Task> {
     List<Task> findTasksInTimeRange(@Param("lowerRange")LocalDate lowerRange,@Param("upperRange")LocalDate upperRange);
     List<Task> findByPriority(Priority priority);
 
+    @Query("select task From Task task join task.employees employee where task=:employee")
+    List<Task> findTasksRelatedWithEmployee(@Param("employee") Employee employee);
+
 }
