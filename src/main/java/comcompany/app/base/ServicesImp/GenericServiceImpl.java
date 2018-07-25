@@ -52,16 +52,17 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
 
     }
 
-    //getdeclaredFields zwraca wszystkie pola
-//getFIelds zwraca tylko publiczne pola
+
     @Override
     public T update(T object) {
 
 
         Field field = null;
+        /*getdeclaredFields returns all fields
+        getFIelds returns only public fields*/
         Field[] fields = object.getClass().getDeclaredFields();
 
-        //Na wszelki wypadek ustawiam dostęp do wszystkich pol
+        //Setting every field on public - just in case
         Arrays.stream(fields).forEach((f -> f.setAccessible(true)));
         String fieldName = fields[0].getName();
         Long fieldIdValue = null;
@@ -79,9 +80,11 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
             log.error("Unable to get " + fieldName + " value", e);
         }
 
-        //Ma to sens - wszystko  to co powyżej sie robi aby sprawdzic czy taki obiekt istnieje w bazie
-        //bo bez tego czasem by dodalo a nie zaktualizowalo a mam miesc pewnosc co robi program - czy dodaje czy aktualizuje
 
+
+        /*The above code ensures that this object is persisted in DB.
+        The goal of this method is to update(not add) - So we must be sure that every single object will be updated
+        * Without him I dont know whether this method adds  or update  */
         object = read(fieldIdValue);
 
         return genericRepository.save(object);

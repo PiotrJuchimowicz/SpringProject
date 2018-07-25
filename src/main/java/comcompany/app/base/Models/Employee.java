@@ -1,15 +1,23 @@
 package comcompany.app.base.Models;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-//w relacji many to many z TASK - task jest ownerem relacji
-//w relacji many to one z DEPARTMENT - employee jest ownerem relacji - w bazie w tej tabeli bedzie klucz obcy do department
 
+
+/*Many Employees with Many Tasks (Task is relation owner)
+Many Employees with One Department(Employee is relation owner - has fk)*/
 @Entity(name = "Task")
 @Table(name = "EMPLOYEE")
+@ToString(exclude = {"department","tasks"}, includeFieldNames = true)
+@EqualsAndHashCode(exclude = {"tasks","department"})
+@NoArgsConstructor
+@Getter
+@Setter
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,92 +45,8 @@ public class Employee {
 
     }
 
-    public Employee() {
-    }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
-    }
-
-    public Set<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", position='" + position.toString().toLowerCase() + '\'' +
-                ", salary=" + salary +
-                ", department=" + department +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return Double.compare(employee.salary, salary) == 0 &&
-                Objects.equals(id, employee.id) &&
-                Objects.equals(name, employee.name) &&
-                Objects.equals(surname, employee.surname) &&
-                Objects.equals(position, employee.position);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, name, surname, position, salary);
-    }
 }

@@ -17,12 +17,10 @@ public interface EmployeeRepository extends GenericRepository<Employee> {
     List<Employee> findEmployeesByPosition(Position position);
 
     List<Employee> findEmployeesBySalaryBetween(double lowerLimit, double upperLimit);
-//jesli mam fetch na lazy :
-//zwykle join pobierze mi samych employee bez powiazanych z nimi obiektow
-//join fetch pobierze i employee i powiazane z nimi obiekty
 
-    //to jest jpql w tym przypadku nie wyglada jak sql( normalnie powinien być join)
+
+    /*//jpql querry(with sql  there should be join  expression )
     @Query("select t.employees From Task t Where t.id =:task.id ")
-    List<Employee> findEmployeesWorkingOnTask(Task task);
+    List<Employee> findEmployeesWorkingOnTask(Task task);*/
 
 }

@@ -3,9 +3,12 @@ package comcompany.app.base.Repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
-//Spring musi wiedziec w czasie uruchamiania apki jakimi typami rozszerzam JpaRepositroy. Tu mu tego nie podalem
-//bo jest T,wiec oznaczam klase adnotacja @NoRepositoryBean i spring nie robi mi z tego beana
-//zrobi beany dla kazdego z repozytoriow stworzonych przeze mnie
+/*
+Spring Data need to know which type of object will be persisted and type of its id(below I didnt give it to Spring)
+In this case,I decided to increase abstraction-from this layer will be created 3 different layers(non generic)
+So this interface must be generic
+I've used @NonRepositoryBean annotation which stops Spring before creating below Repository
+ */
 @NoRepositoryBean
 public interface GenericRepository<T> extends JpaRepository<T,Long> {
 }
