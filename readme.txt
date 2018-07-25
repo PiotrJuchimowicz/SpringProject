@@ -4,7 +4,8 @@ Project is still developed.
 
 Technology stack:
 -Java 8
--Spring(Data,MVC,Boot,Security)
+-MySql
+-Spring(Core,Data,MVC,Boot,Security)
 -Hibernate
 -Maven
 -Junit 5 
