@@ -11,7 +11,7 @@ import java.util.Set;
 
 /*Many Employees with Many Tasks (Task is relation owner)
 Many Employees with One Department(Employee is relation owner - has fk)*/
-@Entity(name = "Task")
+@Entity(name = "Employee")
 @Table(name = "EMPLOYEE")
 @ToString(exclude = {"department","tasks"}, includeFieldNames = true)
 @EqualsAndHashCode(exclude = {"tasks","department"})
