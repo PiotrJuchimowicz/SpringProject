@@ -2,6 +2,9 @@ package comcompany.app.base.ServicesImp;
 
 import comcompany.app.base.Repositories.GenericRepository;
 import comcompany.app.base.Services.GenericService;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,16 +13,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
 public abstract class GenericServiceImpl<T> implements GenericService<T> {
 
 
     private GenericRepository<T> genericRepository;
     private Logger log = LoggerFactory.getLogger(getClass().getName());
-
-
-    public GenericServiceImpl() {
-    }
 
 
     @Override
@@ -103,21 +104,9 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
         genericRepository.deleteAll();
     }
 
-    public GenericRepository<T> getGenericRepository() {
-        return genericRepository;
-    }
 
     public abstract void setRepository(GenericRepository<T> genericRepository);
 
-    public void setGenericRepository(GenericRepository<T> genericRepository) {
-        this.genericRepository = genericRepository;
-    }
 
-    public Logger getLog() {
-        return log;
-    }
 
-    public void setLog(Logger log) {
-        this.log = log;
-    }
 }
