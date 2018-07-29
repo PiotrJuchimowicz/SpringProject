@@ -1,5 +1,6 @@
 package comcompany.app.base.ServicesImp;
 
+import comcompany.app.base.Exceptions.NullQueryResultException;
 import comcompany.app.base.Models.Department;
 import comcompany.app.base.Repositories.DepartmentRepository;
 import comcompany.app.base.Repositories.GenericRepository;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DepartmentServiceImpl extends GenericServiceImpl<Department> implements DepartmentService {
@@ -27,8 +27,8 @@ public class DepartmentServiceImpl extends GenericServiceImpl<Department> implem
         List<Department> querryResult = departmentRepository.findByLocation(location);
         if(querryResult==null)
         {
-            this.getLog().error("Unable to find Departments by " + location);
-            throw new RuntimeException("Unable to find Departments by");
+            this.getLog().warn("Unable to find departments by " + location);
+            throw new NullQueryResultException("Unable to find departments by location  " + location);
         }
 
 
@@ -40,6 +40,14 @@ public class DepartmentServiceImpl extends GenericServiceImpl<Department> implem
 
     @Override
     public List<Department> findByName(String name) {
-        return null;
+        DepartmentRepository departmentRepository = (DepartmentRepository) this.getGenericRepository();
+        List<Department> querryResult=departmentRepository.findByName(name);
+        if(querryResult==null)
+        {
+            this.getLog().warn("Unable to find departments by name: " + name);
+            throw new NullQueryResultException("Unable to find departments by name: " + name);
+        }
+
+        return  querryResult;
     }
 }

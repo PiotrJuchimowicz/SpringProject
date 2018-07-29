@@ -16,6 +16,10 @@ public class AppApplication {
 //Good practies with exceptions and Spring MVC
 //Layer division
 //SLF4J with logback need to be implemented
-//Owner exceptions
+//Own exceptions
+//registration with mail support
+//password-hash
+//only boss can assign tasks and watch  employees statistics
+
 
 

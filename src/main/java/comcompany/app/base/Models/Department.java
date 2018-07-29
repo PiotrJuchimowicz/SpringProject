@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-//Need to add later  a manager for each department(iheritance implementation in Hibernate)
+//Need to add later  a manager/boss for each department(iheritance implementation in Hibernate)
 @Entity(name = "Department")
 @Table(name = "DEPARTMENT")
 @ToString(exclude = "employees", includeFieldNames = true)

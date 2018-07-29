@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends GenericRepository<Task> {
     @Query(value = "SELECT t FROM  Task t  WHERE t.endDate BETWEEN :lowerRange AND :upperRange",nativeQuery = false)
-    List<Task> findTasksInTimeRange(@Param("lowerRange")LocalDate lowerRange,@Param("upperRange")LocalDate upperRange);
+    List<Task> findFinishedTasksInTimeRange(@Param("lowerRange")LocalDate lowerRange,@Param("upperRange")LocalDate upperRange);
     List<Task> findByPriority(Priority priority);
 
     @Query("select task From Task task join task.employees employee where task=:employee")
