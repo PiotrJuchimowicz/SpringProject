@@ -1,5 +1,5 @@
 package comcompany.app.base.Models;
 
 public enum Position {
-    PROGRAMMER,TESTER,MANAGER,SECRETARY
+    ADMIN,BOSS,DEVELOPER,TESTER,MANAGER
 }

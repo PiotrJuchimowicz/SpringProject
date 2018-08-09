@@ -2,22 +2,25 @@ package comcompany.app.base.Models;
 
 import lombok.*;
 
+
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
-
-/*Many Employees with Many Tasks (Task is relation owner)
-Many Employees with One Department(Employee is relation owner - has fk)*/
-@Entity(name = "Employee")
-@Table(name = "EMPLOYEE")
-@ToString(exclude = {"department", "tasks"}, includeFieldNames = true,callSuper = true)
-@EqualsAndHashCode(exclude = {"tasks", "department"},callSuper = true)
-@NoArgsConstructor
+@Entity
 @Getter
 @Setter
-public class Employee extends Person {
+/*@NoArgsConstructor*/
+@ToString(exclude = {"department","tasks"})
+@EqualsAndHashCode(exclude = {"department","tasks"})
+public  class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "person_id", updatable = false, nullable = false)
+    private Long id;
+
+
+    private String name, surname, email;
+    private double salary;
 
     @Enumerated(EnumType.STRING)
     private Position position;
@@ -29,13 +32,16 @@ public class Employee extends Person {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    public Employee(String name, String surname, String email, double salary, Position position, Department department) {
-        super(name, surname, email, salary);
-        this.position = position;
-        this.department = department;
+
+
+    public Employee() {
     }
 
-
-
-
+    public Employee(String name, String surname, String email, double salary, Position position) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.salary = salary;
+        this.position = position;
+    }
 }

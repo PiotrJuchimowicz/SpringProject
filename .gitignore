@@ -30,3 +30,4 @@
 *logs*
 mvnw*
 **/.mvn
+forDevelopment.txt

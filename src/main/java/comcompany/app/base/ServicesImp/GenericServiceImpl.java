@@ -108,5 +108,4 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
     public abstract void setRepository(GenericRepository<T> genericRepository);
 
 
-
 }

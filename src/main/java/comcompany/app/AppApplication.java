@@ -3,9 +3,11 @@ package comcompany.app;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 @SpringBootApplication
+@EnableWebMvc
 public class AppApplication {
 
     public static void main(String[] args) {
@@ -20,6 +22,10 @@ public class AppApplication {
 //registration with mail support
 //password-hash
 //only boss can assign tasks and watch  employees statistics
+//actors : boss,admin,developer,tester,manager
+//form validation  with spring
+//criteria api
+
 
 
 

@@ -20,8 +20,8 @@ public interface EmployeeRepository extends GenericRepository<Employee> {
     List<Employee> findEmployeesBySalaryBetween(double lowerLimit, double upperLimit);
 
 
-    //jpql querry(with sql  there should be join  expression )
-    @Query("select employee From Employee employee join employee.tasks task where employee=:task")
+    //jpql querry(with sql  there should be  more typical join  expression )
+    @Query("select employee From Employee employee  where :task in (employee.tasks)")
     List<Employee> findEmployeesWorkingOnTask(@Param("task") Task task);
 
 }
