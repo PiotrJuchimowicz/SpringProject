@@ -31,3 +31,4 @@
 mvnw*
 **/.mvn
 forDevelopment.txt
+*.gz
