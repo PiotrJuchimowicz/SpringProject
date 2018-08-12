@@ -25,5 +25,6 @@ public class AppApplication {
 //actors : boss,admin,developer,tester,manager
 //form validation  with spring
 //criteria api
-//captch
+//captcha
 //later : pdf with statistic about company(count of developers,salary ....)
+//import bootstrap files from one file
