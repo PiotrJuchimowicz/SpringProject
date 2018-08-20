@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
+    <title>Employee mangement</title>
+</head>
+<body>
+<div class="container-fluid" style="font-size: 20px">
+    <div th:replace="boss/index.html :: navbar"></div>
+    <div class="jumbotron" style="background-color: white;justify-content: space-between">
+
+        <p class="lead">Welcome to employees management page</p>
+        <hr class="my-4">
+
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="/boss/employee/getEmployeeForm">Add employee</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/boss/employee/showSearchingCriteria">Search for employees</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Update employees</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Delete employees</a>
+        </li>
+    </ul>
+</div>
+<div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="jumbotron" style="background-color: white;justify-content: space-between">
+
+
+    </div>
+    <br>
+    <br>
+    <!--In form input  parameters name and surname are selected by boss they are binded into controller using attribute name-->
+
+    <form action="#" th:object="${fields}" th:if="${fields.get(0).equals('name') && fields.get(1).equals('surname') }"
+          th:action="@{/boss/employee/showByNameAndSurname}" method="post">
+        <input type="text" class="form-control" required placeholder="Enter name"
+               th:name="${fields.get(0)}">
+        <input type="text" class="form-control" required placeholder="Enter surname"
+               th:name="${fields.get(1)}">
+        <div class="btn-group" role="group" aria-label="Basic example" th:fragment="buttons">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="reset" class="btn btn-secondary">Reset </button>
+            <a href="/boss/employee/showSearchingCriteria" class="btn btn-info" role="button">Return </a>
+        </div>
+    </form>
+
+    <form action="#" th:if="${fields.get(0).equals('city')}" th:action="@{/boss/employee/showByCity}" method="post">
+        <input type="text" class="form-control"  placeholder="Enter city" required th:name="${fields.get(0)}">
+        <div th:replace="this ::buttons"></div>
+    </form>
+    <!--TODO-->
+    <!--walidacja ze wieksze od 0 po stronie servera jak i przegladarki-->
+    <form action="#" th:if="${fields.get(0).equals('lower limit') && fields.get(1).equals('upper limit') }" th:action="@{/boss/employee/showBySalary}" method="post">
+        <input type="number" min="0" class="form-control"  placeholder="Enter lower limit " required th:name="${fields.get(0)}">
+        <input type="number" min="0" class="form-control"  placeholder="Enter upper limit " required th:name="${fields.get(1)}">
+        <div th:replace="this ::buttons"></div>
+    </form>
+
+    <form action="#" th:if="${fields.get(0).equals('position')}" th:action="@{/boss/employee/showByPosition}" method="post">
+        <select  class="custom-select mr-sm-2"   required th:name="${fields.get(0)} " th:object="${positions}">
+            <option th:each="pos : ${positions}" th:value="${pos}" th:text="${pos}">
+            </option>
+        </select>
+        <div th:replace="this ::buttons"></div>
+    </form>
+
+</div>
+<div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
+</body>
+</html>

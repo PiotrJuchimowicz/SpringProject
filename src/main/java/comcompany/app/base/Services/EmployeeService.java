@@ -18,4 +18,12 @@ public interface EmployeeService extends GenericService<Employee> {
     List<Employee> findEmployeesBySalaryBetween(double lowerLimit, double upperLimit);
 
     List<Employee> findEmployeesWorkingOnTask(Task task);
+
+    List<Employee> findEmployeesByCity(String city);
+
+    List<Employee> findEmployeesByNameAndSurname(String name, String surname);
+
+
+
+
 }

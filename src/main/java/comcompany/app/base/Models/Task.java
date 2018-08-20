@@ -13,7 +13,7 @@ import java.util.Set;
 //Task is owner side
 @Entity(name = "Task")
 @Table(name = "TASK")
-@ToString(exclude = "employees", includeFieldNames = true)
+@ToString(exclude = {"employees","id"}, includeFieldNames = true)
 @EqualsAndHashCode(exclude = "employees")
 @NoArgsConstructor
 @Getter

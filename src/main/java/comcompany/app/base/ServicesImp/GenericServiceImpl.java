@@ -1,5 +1,6 @@
 package comcompany.app.base.ServicesImp;
 
+import comcompany.app.base.Exceptions.NullQueryResultException;
 import comcompany.app.base.Repositories.GenericRepository;
 import comcompany.app.base.Services.GenericService;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +30,7 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
         List<T> result = genericRepository.findAll();
         if (result.isEmpty()) {
             log.error("Unable to get  all objects from DB.Empty query result");
-            throw new RuntimeException("Unable to get  all objects from DB.Empty query result");
+            throw new NullQueryResultException("Unable to get  all objects from DB.Empty query result");
 
         } else
             return result;
@@ -107,5 +109,12 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
 
     public abstract void setRepository(GenericRepository<T> genericRepository);
 
+    @Override
+    public Field[] getAllFields(Class<T> c) {
 
+
+        return c.getDeclaredFields();
+
+
+    }
 }

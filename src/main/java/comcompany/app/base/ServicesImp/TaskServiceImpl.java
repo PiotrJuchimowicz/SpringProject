@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskService {
@@ -64,5 +65,20 @@ public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskSer
         }
 
         return queryResult;
+    }
+
+    @Override
+    public List<Task> findByName(String name) {
+        TaskRepository taskRepository = (TaskRepository) this.getGenericRepository();
+      List<Task> queryResult=taskRepository.findByName(name);
+
+        if (queryResult == null)
+        {
+            this.getLog().warn("Unable to find tasks by  : " + name );
+            throw new NullQueryResultException("Unable to find tasks by  : " + name  );
+        }
+
+        return  queryResult;
+
     }
 }

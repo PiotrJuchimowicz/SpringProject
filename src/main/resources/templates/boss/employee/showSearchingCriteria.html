@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
+    <title>Show selection</title>
+</head>
+<body>
+<div class="container-fluid" style="font-size: 20px">
+    <div th:replace="boss/index.html :: navbar"></div>
+    </nav>
+
+    <div class="jumbotron" style="background-color: white;justify-content: space-between">
+        <p class="lead">Select searching criteria</p>
+        <hr class="my-4">
+
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="/boss/employee/showAll">Search for all employees</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/boss/employee/showByNameAndSurnameForm">Search for employees by name and surname</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/boss/employee/showByCityForm">Search for employees by city</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/boss/employee/showBySalaryForm">Search for employees by salary </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/boss/employee/showByPositionForm">Search for employees by position </a>
+        </li>
+    </ul>
+</div>
+
+<div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
+</body>
+</html>

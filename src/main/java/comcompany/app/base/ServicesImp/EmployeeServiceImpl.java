@@ -1,5 +1,6 @@
 package comcompany.app.base.ServicesImp;
 
+import comcompany.app.base.Exceptions.IncorrectFormDataException;
 import comcompany.app.base.Exceptions.NullQueryResultException;
 import comcompany.app.base.Models.Department;
 import comcompany.app.base.Models.Employee;
@@ -12,7 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+//TODO
+//optionals instead nulls throwing
 @Service
 public class EmployeeServiceImpl extends GenericServiceImpl<Employee> implements EmployeeService {
 
@@ -52,7 +54,10 @@ public class EmployeeServiceImpl extends GenericServiceImpl<Employee> implements
 
     @Override
     public List<Employee> findEmployeesBySalaryBetween(double lowerLimit, double upperLimit) {
-
+        if(lowerLimit <0 ||upperLimit<0)
+        {
+            throw new IncorrectFormDataException("Salary cant be less than 0");
+        }
         EmployeeRepository employeeRepository = (EmployeeRepository) this.getGenericRepository();
         List<Employee> querryResult =  employeeRepository.findEmployeesBySalaryBetween(lowerLimit,upperLimit);
         if(querryResult==null)
@@ -72,6 +77,35 @@ public class EmployeeServiceImpl extends GenericServiceImpl<Employee> implements
         {
             this.getLog().warn("Unable to find employees working on task : " + task);
             throw new NullQueryResultException("Unable to find employees working on task : " + task);
+        }
+
+        return querryResult;
+    }
+
+    @Override
+    public List<Employee> findEmployeesByCity(String city) {
+        EmployeeRepository employeeRepository = (EmployeeRepository) this.getGenericRepository();
+
+        List<Employee> querryResult=employeeRepository.findEmployeesByCity(city);
+        if(querryResult==null)
+        {
+            this.getLog().warn("Unable to find employees by city : " + city);
+            throw new NullQueryResultException("Unable to find employees by city : " + city);
+        }
+
+        return querryResult;
+
+    }
+
+    @Override
+    public List<Employee> findEmployeesByNameAndSurname(String name, String surname) {
+        EmployeeRepository employeeRepository = (EmployeeRepository) this.getGenericRepository();
+
+        List<Employee> querryResult=employeeRepository.findEmployeesByNameAndSurname(name,surname);
+        if(querryResult==null)
+        {
+            this.getLog().warn("Unable to find employees by name : " + name + " and surname: " + surname);
+            throw new NullQueryResultException("Unable to find employees by name   : " + name + " and  surname: " + surname);
         }
 
         return querryResult;

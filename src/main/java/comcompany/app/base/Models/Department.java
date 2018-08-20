@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity(name = "Department")
 @Table(name = "DEPARTMENT")
-@ToString(exclude = "employees", includeFieldNames = true)
+@ToString(exclude = {"employees","id"}, includeFieldNames = true)
 @EqualsAndHashCode(exclude = "employees")
 @NoArgsConstructor
 @Getter

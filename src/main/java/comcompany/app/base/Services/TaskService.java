@@ -10,7 +10,11 @@ import java.util.List;
 
 public interface TaskService extends GenericService<Task> {
     List<Task> findFinishedTasksInTimeRange(LocalDate lowerRange, LocalDate upperRange);
+
     List<Task> findByPriority(Priority priority);
-    List<Task> findTasksRelatedWithEmployee( Employee employee);
+
+    List<Task> findTasksRelatedWithEmployee(Employee employee);
+
+    List<Task> findByName(String name);
 
 }

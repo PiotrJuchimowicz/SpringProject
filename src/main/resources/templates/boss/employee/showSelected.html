@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
+    <title>All employees</title>
+</head>
+<div class="container">
+<div class="jumbotron" style="background-color: white;justify-content: space-between">
+    <p class="lead">Selected employees:</p>
+    <hr class="my-4">
+</div>
+
+
+<!--<option th:each="pos : ${positions}" th:value="${pos}" th:text="${pos}">-->
+<table class="table table-hover" th:object="${employees}">
+    <thead>
+    <tr>
+        <th scope="col"> </th>
+        <th scope="col" th:each="field : ${fields}" th:text="${field}"></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <th:block >
+        <tr  th:each="employee : ${employees}">
+            <th scope="row"></th>
+            <td th:text="${employee.name}"></td>
+            <td th:text="${employee.surname}"></td>
+            <td th:text="${employee.email}"></td>
+            <td th:text="${employee.city}"></td>
+            <td th:text="${employee.salary}"></td>
+            <td th:text="${employee.position.name().toLowerCase()}"></td>
+        </tr>
+    </th:block>
+
+
+    </tbody>
+</table>
+    <a href="/boss/index" class="btn btn-info" role="button">Return to homepage</a>
+    <a href="/boss/employee/showSearchingCriteria" class="btn btn-info" role="button">Continue searching</a>
+</div>
+<body>
+
+<div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
+</body>
+</html>

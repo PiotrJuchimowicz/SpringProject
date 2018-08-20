@@ -4,13 +4,14 @@ import lombok.*;
 
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
-@Entity
+@Entity(name = "Employee")
+@Table(name = "EMPLOYEE")
 @Getter
 @Setter
-/*@NoArgsConstructor*/
-@ToString(exclude = {"department","tasks"})
+@ToString(exclude = {"department","tasks","id"})
 @EqualsAndHashCode(exclude = {"department","tasks"})
 public  class Employee {
     @Id
@@ -19,7 +20,7 @@ public  class Employee {
     private Long id;
 
 
-    private String name, surname, email;
+    private String name, surname, email,city;
     private double salary;
 
     @Enumerated(EnumType.STRING)
@@ -31,6 +32,12 @@ public  class Employee {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "department_id")
     private Department department;
+
+    @OneToMany(mappedBy = "recipient",cascade = CascadeType.ALL)
+    private List<Message> sentMessages;
+
+    @OneToMany(mappedBy = "sender",cascade = CascadeType.ALL)
+    private List<Message> receivedMessages;
 
 
 
