@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="jumbotron" style="background-color: white;justify-content: space-between">
+
+
+    </div>
+    <br>
+    <br>
+    <!--In form input  parameters name and surname are selected by boss they are binded into controller using attribute name-->
+
+    <form action="#"
+          th:action="@{/boss/employee/showSelected}" method="post">
+        <input type="text" class="form-control" placeholder="Enter name"
+               name="name">
+        <input type="text" class="form-control" placeholder="Enter surname"
+               name="surname">
+        <input type="email" class="form-control" placeholder="Enter email"
+               name="email">
+        <input type="text" class="form-control" placeholder="Enter city"
+               name="city">
+        <input type="number" min="0"   class="form-control" placeholder="Enter lower limit " name="lower limit">
+        <input type="number" min="0"  class="form-control" placeholder="Enter upper limit " name="upper limit">
+        <select class="custom-select mr-sm-2" name="position" th:object="${positions}">
+            <!--default position is not selected-->
+            <option th:value="null" th:text="'Enter position'"></option>
+            <option th:each="pos : ${positions}" th:value="${pos}" th:text="${#strings.toLowerCase(pos)}">
+            </option>
+        </select>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+            <a href="/boss/employee/searchingCriteria" class="btn btn-info" role="button">Return </a>
+        </div>
+    </form>
+
+
+</div>
+<div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
+</body>
+</html>

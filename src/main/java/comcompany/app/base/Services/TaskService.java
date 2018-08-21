@@ -9,6 +9,7 @@ import java.util.List;
 
 
 public interface TaskService extends GenericService<Task> {
+
     List<Task> findFinishedTasksInTimeRange(LocalDate lowerRange, LocalDate upperRange);
 
     List<Task> findByPriority(Priority priority);

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskService {
@@ -22,18 +21,15 @@ public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskSer
         this.setGenericRepository(taskRepository);
     }
 
-
-
     @Override
     public List<Task> findFinishedTasksInTimeRange(LocalDate lowerRange, LocalDate upperRange) {
 
         TaskRepository taskRepository = (TaskRepository) this.getGenericRepository();
         List<Task> queryResult = taskRepository.findFinishedTasksInTimeRange(lowerRange, upperRange);
 
-        if (queryResult == null)
-        {
-            this.getLog().warn("Unable to find tasks finished between " + lowerRange +" and " + upperRange);
-            throw new NullQueryResultException("Unable to find tasks finished between " + lowerRange +" and " + upperRange);
+        if (queryResult == null) {
+            this.getLog().warn("Unable to find tasks finished between " + lowerRange + " and " + upperRange);
+            throw new NullQueryResultException("Unable to find tasks finished between " + lowerRange + " and " + upperRange);
         }
 
         return queryResult;
@@ -44,10 +40,9 @@ public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskSer
         TaskRepository taskRepository = (TaskRepository) this.getGenericRepository();
         List<Task> queryResult = taskRepository.findByPriority(priority);
 
-        if (queryResult == null)
-        {
-            this.getLog().warn("Unable to find tasks by priority : " + priority );
-            throw new NullQueryResultException("Unable to find tasks by priority : " + priority );
+        if (queryResult == null) {
+            this.getLog().warn("Unable to find tasks by priority : " + priority);
+            throw new NullQueryResultException("Unable to find tasks by priority : " + priority);
         }
 
         return queryResult;
@@ -58,10 +53,9 @@ public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskSer
         TaskRepository taskRepository = (TaskRepository) this.getGenericRepository();
         List<Task> queryResult = taskRepository.findTasksRelatedWithEmployee(employee);
 
-        if (queryResult == null)
-        {
-            this.getLog().warn("Unable to find tasks related with  : " + employee );
-            throw new NullQueryResultException("Unable to find tasks related with  : " + employee  );
+        if (queryResult == null) {
+            this.getLog().warn("Unable to find tasks related with  : " + employee);
+            throw new NullQueryResultException("Unable to find tasks related with  : " + employee);
         }
 
         return queryResult;
@@ -70,15 +64,15 @@ public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskSer
     @Override
     public List<Task> findByName(String name) {
         TaskRepository taskRepository = (TaskRepository) this.getGenericRepository();
-      List<Task> queryResult=taskRepository.findByName(name);
+        List<Task> queryResult = taskRepository.findByName(name);
 
-        if (queryResult == null)
-        {
-            this.getLog().warn("Unable to find tasks by  : " + name );
-            throw new NullQueryResultException("Unable to find tasks by  : " + name  );
+        if (queryResult == null) {
+            this.getLog().warn("Unable to find tasks by  : " + name);
+            throw new NullQueryResultException("Unable to find tasks by  : " + name);
         }
 
-        return  queryResult;
+        return queryResult;
 
     }
+
 }

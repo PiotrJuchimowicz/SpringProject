@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +19,8 @@ import java.util.Optional;
 @NoArgsConstructor
 public abstract class GenericServiceImpl<T> implements GenericService<T> {
 
-
     private GenericRepository<T> genericRepository;
     private Logger log = LoggerFactory.getLogger(getClass().getName());
-
 
     @Override
     public List<T> getAll() {
@@ -52,13 +49,10 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
             throw new RuntimeException("Unable to read object from DB");
         }
 
-
     }
-
 
     @Override
     public T update(T object) {
-
 
         Field field = null;
         /*getdeclaredFields returns all fields
@@ -83,15 +77,12 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
             log.error("Unable to get " + fieldName + " value", e);
         }
 
-
-
         /*The above code ensures that this object is persisted in DB.
         The goal of this method is to update(not add) - So we must be sure that every single object will be updated
         * Without him I dont know whether this method adds  or update  */
         object = read(fieldIdValue);
 
         return genericRepository.save(object);
-
 
     }
 
@@ -106,15 +97,13 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
         genericRepository.deleteAll();
     }
 
-
     public abstract void setRepository(GenericRepository<T> genericRepository);
 
     @Override
     public Field[] getAllFields(Class<T> c) {
 
-
         return c.getDeclaredFields();
 
-
     }
+
 }

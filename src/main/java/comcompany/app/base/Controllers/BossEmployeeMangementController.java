@@ -5,21 +5,19 @@ import comcompany.app.base.Exceptions.IncorrectFormDataException;
 import comcompany.app.base.Models.Employee;
 import comcompany.app.base.Models.Position;
 import comcompany.app.base.Services.EmployeeService;
-import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/boss")
@@ -33,14 +31,14 @@ public class BossEmployeeMangementController {
     }
 
     //returns view for Employees mangement
-    @RequestMapping("/employee/management")
+    @RequestMapping("/employee/menu")
     public String management() {
-        return "boss/employee/management";
+        return "boss/employee/menu";
 
     }
 
     //gets model , sends data to view and returns that view(model is sending behind the scenes)
-    @RequestMapping(value = "/employee/getEmployeeForm", method = RequestMethod.GET)
+    @RequestMapping(value = "/employee/addForm", method = RequestMethod.GET)
     public String getForm(Model model) {
 
         model.addAttribute("employee", new Employee());
@@ -50,15 +48,13 @@ public class BossEmployeeMangementController {
         //removing ADMIN and BOSS - they shouldnt be able to add in form by BOSS
         Object[] filteredPositions = Arrays.stream(positions).filter(position -> (position != Position.BOSS)).toArray();
 
-
         //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
 
         return "boss/employee/addForm";
     }
 
-
-    @RequestMapping(value = "employee/addEmployee", method = RequestMethod.POST)
+    @RequestMapping(value = "employee/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("employee") Employee employee) {
         //validation later
 
@@ -69,11 +65,10 @@ public class BossEmployeeMangementController {
     }
 
     //returns menu with options how to search for employees
-    @RequestMapping(value = "employee/showSearchingCriteria", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/searchingCriteria", method = RequestMethod.GET)
     public String showSearchingCriteria() {
-        return "boss/employee/showSearchingCriteria";
+        return "boss/employee/searchingCriteria";
     }
-
 
     //also ModelAndView can be thrown - it contains data and view
     @RequestMapping(value = "/employee/showAll", method = RequestMethod.GET)
@@ -81,151 +76,95 @@ public class BossEmployeeMangementController {
         List<Employee> allEmployees = employeeService.getAll();
         List<String> fieldsListToString = getFieldsToView();
 
-        //TODO UNABLE TO BIND TO LIST !
 
         ModelAndView mav = new ModelAndView("boss/employee/showSelected");
         mav.addObject("employees", allEmployees);
         mav.addObject("fields", fieldsListToString);
 
         return mav;
-
-
     }
 
-
-
-    @RequestMapping(value = "/employee/showByNameAndSurnameForm",method = RequestMethod.GET)
-    public String enterNameAndSurname(Model model)
-    {
-        List<String> fields=new LinkedList<>();
-        fields.add("name");
-        fields.add("surname");
-        model.addAttribute("fields",fields);
-
-
-
-
-
-        return "boss/employee/enterSearchingCriteria";
-
-    }
-
-
-    @RequestMapping(value ="/employee/showByNameAndSurname",method = RequestMethod.POST)
-    public String showByNameAndSurname(@RequestParam("name") String name,@RequestParam("surname") String surname,Model model)
-    {
-
-        List<Employee> result=employeeService.findEmployeesByNameAndSurname(name,surname);
-        model.addAttribute("employees",result);
-        List<String> fieldsListToString = getFieldsToView();
-        model.addAttribute("fields",fieldsListToString);
-
-
-
-
-        return "boss/employee/showSelected";
-
-    }
-
-
-    @RequestMapping(value = "employee/showByCityForm",method = RequestMethod.GET)
-    public String enterCity(Model model)
-    {
-        List<String> fields=new LinkedList<>();
-        fields.add("city");
-        model.addAttribute("fields",fields);
-
-        return "boss/employee/enterSearchingCriteria";
-
-
-    }
-
-    @RequestMapping(value = "/employee/showByCity",method = RequestMethod.POST)
-    public String showByCity(@RequestParam("city") String city,Model model)
-    {
-        List<Employee> result=employeeService.findEmployeesByCity(city);
-        model.addAttribute("employees",result);
-        List<String> fieldsListToString = getFieldsToView();
-        model.addAttribute("fields",fieldsListToString);
-
-
-        return "/boss/employee/showSelected";
-    }
-
-    @RequestMapping(value = "employee/showBySalaryForm",method = RequestMethod.GET)
-    public String enterSalary(Model model)
-    {
-        List<String> fields=new LinkedList<>();
-        fields.add("lower limit");
-        fields.add("upper limit");
-        model.addAttribute("fields",fields);
-
-        return "boss/employee/enterSearchingCriteria";
-
-    }
-
-    @RequestMapping(value = "/employee/showBySalary",method = RequestMethod.POST)
-    public String showByCity(@RequestParam("lower limit") double lowerLimit,@RequestParam("upper limit") double upperLimit, Model model)
-    {
-        List<Employee> result=null;
-        try {
-            result = employeeService.findEmployeesBySalaryBetween(lowerLimit, upperLimit);
-        }
-        catch (IncorrectFormDataException e)
-        {
-            //TODO return personalised invalid form page
-            return "/boss/employee/error";
-        }
-        model.addAttribute("employees",result);
-        List<String> fieldsListToString = getFieldsToView();
-        model.addAttribute("fields",fieldsListToString);
-
-
-        return "/boss/employee/showSelected";
-    }
-
-    @RequestMapping(value = "employee/showByPositionForm",method = RequestMethod.GET)
-    public String enterPosition(Model model)
-    {
-        List<String> fields=new LinkedList<>();
-        fields.add("position");
-
-        model.addAttribute("fields",fields);
-
+    @RequestMapping(value = "/employee/searchForm", method = RequestMethod.GET)
+    public String getSearchForm(Model model) {
         //getting  possible possitions
         Position[] positions = Position.values();
         //removing ADMIN and BOSS - they shouldnt be able to add in form by BOSS
         Object[] filteredPositions = Arrays.stream(positions).filter(position -> (position != Position.BOSS)).toArray();
 
-
         //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
 
-        return "boss/employee/enterSearchingCriteria";
-
-    }
-
-    @RequestMapping(value = "/employee/showByPosition",method = RequestMethod.POST)
-    public String showByCity(@RequestParam("position") Position position, Model model)
-    {
-        List<Employee> result=employeeService.findEmployeesByPosition(position);
-        model.addAttribute("employees",result);
-        List<String> fieldsListToString = getFieldsToView();
-        model.addAttribute("fields",fieldsListToString);
-
-
-        return "/boss/employee/showSelected";
+        return "boss/employee/searchForm";
     }
 
 
+    //gets parameters from searchForm and returns view with merged lists contains common elements - employees meeting used searching criteria
+    @RequestMapping(value = "employee/showSelected", method = RequestMethod.POST)
+    public String getSelected(@RequestParam(value = "name", required = false) String name,
+                              @RequestParam(value = "surname", required = false) String surname,
+                              @RequestParam(value = "city", required = false) String city,
+                              @RequestParam(value = "lower limit", required = false) Double lowerLimit,
+                              @RequestParam(value = "upper limit", required = false) Double upperLimit,
+                              @RequestParam(value = "position", required = false) Position position,
+                              @RequestParam(value = "email", required = false) String email,
+                              Model model) {
 
+        //contains lists of querry results
+        List<List<Employee>> listOfQueriesResults = new LinkedList<>();
+
+        if (!name.equals("")) {
+            List<Employee> employeesByName = employeeService.findEmployeesByName(name);
+            listOfQueriesResults.add(employeesByName);
+        }
+        if (!surname.equals("")) {
+            List<Employee> employeesBySurname = employeeService.findEmployeesBySurname(surname);
+            listOfQueriesResults.add(employeesBySurname);
+
+        }
+        if (!city.equals("")) {
+            List<Employee> employeesByCity = employeeService.findEmployeesByCity(city);
+            listOfQueriesResults.add(employeesByCity);
+        }
+        if (lowerLimit != null && upperLimit != null) {
+            try {
+                List<Employee> employeesBySalaryBetween = employeeService.findEmployeesBySalaryBetween(lowerLimit, upperLimit);
+                listOfQueriesResults.add(employeesBySalaryBetween);
+            } catch (IncorrectFormDataException e) {
+                return "boss/employee/invalidFormData";
+            }
+        }
+        if (position != null) {
+            List<Employee> employeesByPosition = employeeService.findEmployeesByPosition(position);
+            listOfQueriesResults.add(employeesByPosition);
+        }
+        if (!email.equals("")) {
+            List<Employee> employeesByEmail = employeeService.findEmployeesByEmail(email);
+            listOfQueriesResults.add(employeesByEmail);
+        }
+
+        List<Employee> mergedList = new LinkedList<>();
+
+        boolean isFirstLoop = true;
+
+        for (List<Employee> list : listOfQueriesResults) {
+            if (isFirstLoop) {
+                mergedList.addAll(list);
+                isFirstLoop = false;
+            } else {
+                mergedList.retainAll(list);
+            }
+        }
+
+        model.addAttribute("employees", mergedList);
+
+        return "boss/employee/showSelected";
+    }
 
     private List<String> getFieldsToView() {
         Field[] fields = employeeService.getAllFields(Employee.class);
         List<String> fieldsListToString = new LinkedList<>();
 
         for (Field field : fields) {
-
 
             if (!((field.getName().equals("department")) || field.getName().equals("tasks") || field.getName().equals("id") || field.getName().equals("sentMessages") || field.getName().equals("receivedMessages"))) {
                 String fieldToString = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1).toLowerCase();
@@ -234,10 +173,9 @@ public class BossEmployeeMangementController {
                     fieldToString = "E-mail";
                 fieldsListToString.add(fieldToString);
             }
-
-
         }
 
         return fieldsListToString;
     }
+
 }

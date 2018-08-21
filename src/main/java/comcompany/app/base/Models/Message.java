@@ -3,7 +3,6 @@ package comcompany.app.base.Models;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,14 +12,14 @@ import java.time.LocalDateTime;
 @Table(name = "MESSAGE")
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"recipient","sender"})
+@EqualsAndHashCode(exclude = {"recipient", "sender"})
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String subject,content;
+    private String subject, content;
     private LocalDateTime creationDate;
     @Enumerated(value = EnumType.STRING)
     private MessageStatus messageStatus;
@@ -43,4 +42,5 @@ public class Message {
                 ", sender=" + sender.getName() + " " + sender.getSurname() +
                 '}';
     }
+
 }

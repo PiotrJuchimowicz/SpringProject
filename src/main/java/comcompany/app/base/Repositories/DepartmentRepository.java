@@ -7,6 +7,8 @@ import java.util.List;
 
 @Repository
 public interface DepartmentRepository extends GenericRepository<Department> {
+
     List<Department> findByLocation(String location);
+
     List<Department> findByName(String name);
 }

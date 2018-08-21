@@ -18,36 +18,29 @@ public class DepartmentServiceImpl extends GenericServiceImpl<Department> implem
         this.setGenericRepository(departmentRepository);
     }
 
-
-
-
     @Override
     public List<Department> findByLocation(String location) {
-        DepartmentRepository departmentRepository = (DepartmentRepository)this.getGenericRepository();
+        DepartmentRepository departmentRepository = (DepartmentRepository) this.getGenericRepository();
         List<Department> querryResult = departmentRepository.findByLocation(location);
-        if(querryResult==null)
-        {
+        if (querryResult == null) {
             this.getLog().warn("Unable to find departments by " + location);
             throw new NullQueryResultException("Unable to find departments by location  " + location);
         }
 
-
         return querryResult;
-
-
 
     }
 
     @Override
     public List<Department> findByName(String name) {
         DepartmentRepository departmentRepository = (DepartmentRepository) this.getGenericRepository();
-        List<Department> querryResult=departmentRepository.findByName(name);
-        if(querryResult==null)
-        {
+        List<Department> querryResult = departmentRepository.findByName(name);
+        if (querryResult == null) {
             this.getLog().warn("Unable to find departments by name: " + name);
             throw new NullQueryResultException("Unable to find departments by name: " + name);
         }
 
-        return  querryResult;
+        return querryResult;
     }
+
 }

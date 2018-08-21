@@ -1,26 +1,29 @@
 package comcompany.app.base.Models;
 
-import lombok.*;
-
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "Employee")
 @Table(name = "EMPLOYEE")
 @Getter
 @Setter
-@ToString(exclude = {"department","tasks","id"})
-@EqualsAndHashCode(exclude = {"department","tasks"})
-public  class Employee {
+@ToString(exclude = {"department", "tasks", "id"})
+@EqualsAndHashCode(exclude = {"department", "tasks"})
+public class Employee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id", updatable = false, nullable = false)
     private Long id;
 
-
-    private String name, surname, email,city;
+    private String name, surname, email, city;
     private double salary;
 
     @Enumerated(EnumType.STRING)
@@ -33,13 +36,11 @@ public  class Employee {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @OneToMany(mappedBy = "recipient",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
     private List<Message> sentMessages;
 
-    @OneToMany(mappedBy = "sender",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Message> receivedMessages;
-
-
 
     public Employee() {
     }
@@ -51,4 +52,18 @@ public  class Employee {
         this.salary = salary;
         this.position = position;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return Objects.equals(id, employee.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 }

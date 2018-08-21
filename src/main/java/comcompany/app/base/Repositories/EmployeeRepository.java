@@ -9,13 +9,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 @Repository
 public interface EmployeeRepository extends GenericRepository<Employee> {
 
     List<Employee> findEmployeesByDepartment(Department department);
-
 
     //jpql querry(with sql  there should be  more typical join  expression )
     @Query("select employee From Employee employee  where :task in (employee.tasks)")
@@ -23,10 +21,14 @@ public interface EmployeeRepository extends GenericRepository<Employee> {
 
     List<Employee> findEmployeesByCity(String city);
 
-    List<Employee> findEmployeesByNameAndSurname(String name, String surname);
+    List<Employee> findEmployeesByName(String name);
+
+    List<Employee> findEmployeesByEmail(String email);
+
+    List<Employee> findEmployeesBySurname(String surname);
 
     List<Employee> findEmployeesByPosition(Position position);
 
-    List<Employee> findEmployeesBySalaryBetween(double lowerLimit, double upperLimit);
+    List<Employee> findEmployeesBySalaryBetween(Double lowerLimit, Double upperLimit);
 
 }
