@@ -10,28 +10,26 @@ position placeholder something like Select Position
     <meta charset="UTF-8">
 
     <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
-    <title>Add Employee Form</title>
 
-
+    <title>Update Employee Form</title>
 </head>
-
 <body>
-<!--<img alt="image"  src="/static/images/background.jpg">-->
-<div class="container">
 
+<div class="container">
     <br>
     <br>
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
-        <h1 class="display-4">Welcome to employee adding page! </h1>
+        <h1 class="display-4">Welcome to employee updating page! </h1>
         <hr class="my-4">
 
-        <p>Enter data below to add a new employee:</p>
+        <p>Enter data below to update  employee:</p>
     </div>
     <br>
 
-    <form action="#" th:action="@{/boss/employee/add}" th:object="${employee}" method="post">
+    <form action="#" th:action="@{/boss/employee/update}" th:object="${employee}" method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
+                <input type="hidden" th:name="id" th:value="${employee.id}"/>
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" placeholder="Enter name" required th:field="*{name}">
             </div>
@@ -68,7 +66,7 @@ position placeholder something like Select Position
         </div>
         <br>
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary">Update</button>
             <button type="reset" class="btn btn-secondary">Reset </button>
             <a href="/boss/employee/menu" class="btn btn-info" role="button">Return</a>
         </div>

@@ -42,11 +42,7 @@ public class BossEmployeeMangementController {
     public String getForm(Model model) {
 
         model.addAttribute("employee", new Employee());
-
-        //getting  possible possitions
-        Position[] positions = Position.values();
-        //removing ADMIN and BOSS - they shouldnt be able to add in form by BOSS
-        Object[] filteredPositions = Arrays.stream(positions).filter(position -> (position != Position.BOSS)).toArray();
+        Object[] filteredPositions = getPositionsExceptBoss();
 
         //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
@@ -86,10 +82,8 @@ public class BossEmployeeMangementController {
 
     @RequestMapping(value = "/employee/searchForm", method = RequestMethod.GET)
     public String getSearchForm(Model model) {
-        //getting  possible possitions
-        Position[] positions = Position.values();
-        //removing ADMIN and BOSS - they shouldnt be able to add in form by BOSS
-        Object[] filteredPositions = Arrays.stream(positions).filter(position -> (position != Position.BOSS)).toArray();
+
+        Object[] filteredPositions = getPositionsExceptBoss();
 
         //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
@@ -160,6 +154,43 @@ public class BossEmployeeMangementController {
         return "boss/employee/showSelected";
     }
 
+    @RequestMapping(value = "/employee/updateForm", method = RequestMethod.GET)
+    public String updateForm(@RequestParam("id") Long id, Model model) {
+
+
+        Employee employee = employeeService.read(id);
+        model.addAttribute("employee", employee);
+
+        //getting  possible possitions
+        Position[] positions = Position.values();
+        //removing ADMIN and BOSS - they shouldnt be able to add in form by BOSS
+        Object[] filteredPositions = Arrays.stream(positions).filter(position -> (position != Position.BOSS)).toArray();
+
+        //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
+        model.addAttribute("positions", filteredPositions);
+
+        return "boss/employee/updateForm";
+
+    }
+
+    @RequestMapping(value = "employee/update", method = RequestMethod.POST)
+    public String updateForm(@ModelAttribute("employee") Employee employee) {
+
+
+        employeeService.update(employee);
+
+        return "redirect:/boss/employee/showAll";
+
+    }
+
+    @RequestMapping(value = "/employee/delete", method = RequestMethod.GET)
+    public String delete(@RequestParam("id") Long id) {
+        employeeService.delete(id);
+
+        return "redirect:/boss/employee/showAll";
+
+    }
+
     private List<String> getFieldsToView() {
         Field[] fields = employeeService.getAllFields(Employee.class);
         List<String> fieldsListToString = new LinkedList<>();
@@ -176,6 +207,13 @@ public class BossEmployeeMangementController {
         }
 
         return fieldsListToString;
+    }
+
+    private Object[] getPositionsExceptBoss(){
+        //getting  possible possitions
+        Position[] positions = Position.values();
+        //removing ADMIN and BOSS - they shouldnt be able to add in form by BOSS
+        return Arrays.stream(positions).filter(position -> (position != Position.BOSS)).toArray();
     }
 
 }

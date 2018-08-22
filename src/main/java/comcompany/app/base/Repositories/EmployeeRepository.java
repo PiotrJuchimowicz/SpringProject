@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+//Methods return empty collections or collections of objects meeting the criteria
 @Repository
 public interface EmployeeRepository extends GenericRepository<Employee> {
 

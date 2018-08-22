@@ -6,9 +6,9 @@
     <title>Employee mangement</title>
 </head>
 <body>
-<div class="container-fluid" style="font-size: 20px">
+<div class="container" style="font-size: 20px">
     <div th:replace="boss/index.html :: navbar"></div>
-    <div class="jumbotron" style="background-color: white;justify-content: space-between">
+    <div class="jumbotron" style="background-color:inherit;justify-content: space-between">
 
         <p class="lead">Welcome to employees management page</p>
         <hr class="my-4">
@@ -20,12 +20,6 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/boss/employee/searchingCriteria">Search for employees</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Update employees</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Delete employees</a>
         </li>
     </ul>
 </div>

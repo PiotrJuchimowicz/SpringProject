@@ -1,6 +1,5 @@
 package comcompany.app.base.ServicesImp;
 
-import comcompany.app.base.Exceptions.NullQueryResultException;
 import comcompany.app.base.Repositories.GenericRepository;
 import comcompany.app.base.Services.GenericService;
 import lombok.Getter;
@@ -10,13 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Getter
 @Setter
 @NoArgsConstructor
+//TODO catching exceptions in methods and only log is nonsense -need to throw own exception informing that operation failed
 public abstract class GenericServiceImpl<T> implements GenericService<T> {
 
     private GenericRepository<T> genericRepository;
@@ -25,11 +24,6 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
     @Override
     public List<T> getAll() {
         List<T> result = genericRepository.findAll();
-        if (result.isEmpty()) {
-            log.error("Unable to get  all objects from DB.Empty query result");
-            throw new NullQueryResultException("Unable to get  all objects from DB.Empty query result");
-
-        } else
             return result;
 
     }
@@ -59,14 +53,14 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
         getFIelds returns only public fields*/
         Field[] fields = object.getClass().getDeclaredFields();
 
-        //Setting every field on public - just in case
-        Arrays.stream(fields).forEach((f -> f.setAccessible(true)));
+        //Setting id on public
+        fields[0].setAccessible(true);
         String fieldName = fields[0].getName();
         Long fieldIdValue = null;
 
         try {
             field = object.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
+            /*field.setAccessible(true);*/
         } catch (NoSuchFieldException e) {
             log.error("Unable to find field : " + fieldName, e);
         }
@@ -75,12 +69,16 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
             fieldIdValue = (Long) field.get(object);
         } catch (IllegalAccessException e) {
             log.error("Unable to get " + fieldName + " value", e);
+
+        }
+        catch (NullPointerException e)
+        {
+            log.error("Field " + fieldName +" is null",e);
         }
 
         /*The above code ensures that this object is persisted in DB.
         The goal of this method is to update(not add) - So we must be sure that every single object will be updated
         * Without him I dont know whether this method adds  or update  */
-        object = read(fieldIdValue);
 
         return genericRepository.save(object);
 
@@ -89,7 +87,6 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
     @Override
     public void delete(Long id) {
         genericRepository.deleteById(id);
-
     }
 
     @Override
