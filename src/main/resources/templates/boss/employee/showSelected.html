@@ -4,36 +4,42 @@
     <meta charset="UTF-8">
     <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
     <title>All employees</title>
+   <!-- <script>
+        function rowClicked(value) {
+            location.href = "/boss/employee/sortBy" + value;
+        }
+    </script>-->
 
 </head>
-<style>
-    .list-group-item {
-        display: list-item;
-    }
-</style>
+
 <body>
 <div class="container">
-<div class="jumbotron" style="background-color: inherit;justify-content: space-between">
-    <p class="lead">Selected employees:</p>
-    <hr class="my-4">
-</div>
+
+    <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
+        <h1 class="display-5">Selected employees:</h1>
+        <p class="lead">Below are selected employees by your criteria.</p>
+        <hr class="my-4">
+        <p> Select option or click on attribute to sort  them.</p>
+    </div>
 
 
-<!--<option th:each="pos : ${positions}" th:value="${pos}" th:text="${pos}">-->
+
 <table class="table table-hover" th:object="${employees}">
     <thead>
     <tr>
-        <th scope="col">#</th>
-        <th scope="col" th:each="field : ${fields}" th:text="${field}"></th>
-        <th scope="col" th:if="${!employees.isEmpty()}">Action</th>
+        <th scope="col" >#</th>
+        <th scope="col"  th:each="field : ${fields}" th:text="${field}"  > <!-- style="cursor: pointer"  th:onclick="'rowClicked(\''+'?arg=' + ${field} + '\');'"-->
+        </th>
+
+
 
     </tr>
     </thead>
     <tbody>
-    <th:block  >
-        <tr  th:each="employee : ${employees}">
-            <!--TODO NUMEROWANIE WIERSZY-->
-            <th scope="row"  ></th>
+    <th:block >
+        <tr  th:each="employee,count : ${employees} " >
+
+            <th  th:text="${count.index+1}"   ></th>
             <td th:text="${employee.name}"></td>
             <td th:text="${employee.surname}"></td>
             <td th:text="${employee.email}"></td>
@@ -41,24 +47,30 @@
             <td th:text="${employee.salary}"></td>
             <td th:text="${employee.position.name().toLowerCase()}"></td>
             <td th:if="${!employees.isEmpty()}">
-                <button type="button" class="btn btn-info" data-toggle="collapse" th:href="'#collapse' + ${employee.hashCode()}">Action</button>
-                <div  th:id="'collapse' + ${employee.hashCode()}" class="collapse">
-                    <br>
-                    <a th:href="@{/boss/employee/updateForm(id=${employee.id})}" class="btn btn-info" role="button">Update</a>
-                    <a th:href="@{/boss/employee/delete(id=${employee.id})}" class="btn btn-info" role="button">Delete</a>
-                    <a href="#" class="btn btn-info" role="button">Related tasks</a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info">Options</button>
+                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" th:href="@{/boss/employee/updateForm(id=${employee.id})}">Update</a>
+                        <a class="dropdown-item" th:href="@{/boss/employee/delete(id=${employee.id})}">Delete</a>
+                        <a class="dropdown-item" href="/boss/index">Related tasks</a>
+                    </div>
                 </div>
             </td>
-            <!--TODO TUTAJ OPCJA UPDATE,DELETE,SHOW RELATED TASKS,SORTOWANIA ROZNE-->
         </tr>
     </th:block>
 
 
     </tbody>
+    <br>
+
+
+
 </table>
     <a href="/boss/index" class="btn btn-info" role="button">Return to homepage</a>
     <a href="/boss/employee/searchingCriteria" class="btn btn-info" role="button">Continue searching</a>
-    <a href="#" class="btn btn-info" role="button" th:if="${!employees.isEmpty()}">Sort</a>
 </div>
 
 

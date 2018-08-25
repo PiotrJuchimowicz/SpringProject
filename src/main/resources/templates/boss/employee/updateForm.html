@@ -64,12 +64,17 @@ position placeholder something like Select Position
                 </select>
             </div>
         </div>
+        <th:block th:object="${filtered}">
+            <input hidden th:name="filtered" th:value="${filtered}">
+
+        </th:block>
         <br>
         <div class="btn-group" role="group" aria-label="Basic example">
             <button type="submit" class="btn btn-primary">Update</button>
             <button type="reset" class="btn btn-secondary">Reset </button>
             <a href="/boss/employee/menu" class="btn btn-info" role="button">Return</a>
         </div>
+
 
     </form>
 

@@ -9,26 +9,11 @@
 
 <div class="container">
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
-
-
     </div>
     <br>
     <br>
-
-    <!--In form input  parameters name and surname are selected by boss they are binded into controller using attribute name-->
-    <!--<div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter name" required th:field="*{name}">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="surname">Surname:</label>
-            <input type="text" class="form-control" id="surname" placeholder="Enter surname" required
-                   th:field="*{surname}">
-        </div>
-    </div>-->
     <form action="#"
-          th:action="@{/boss/employee/showSelected}" method="post">
+          th:action="@{/boss/employee/showFiltered}" method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="name">Name:</label>

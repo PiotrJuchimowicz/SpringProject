@@ -53,14 +53,14 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
         getFIelds returns only public fields*/
         Field[] fields = object.getClass().getDeclaredFields();
 
-        //Setting id on public
-        fields[0].setAccessible(true);
+
         String fieldName = fields[0].getName();
         Long fieldIdValue = null;
 
         try {
             field = object.getClass().getDeclaredField(fieldName);
-            /*field.setAccessible(true);*/
+            //setting public id
+            field.setAccessible(true);
         } catch (NoSuchFieldException e) {
             log.error("Unable to find field : " + fieldName, e);
         }

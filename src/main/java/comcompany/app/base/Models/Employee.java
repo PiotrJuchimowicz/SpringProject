@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Setter
 @ToString(exclude = {"department", "tasks", "id"})
 @EqualsAndHashCode(exclude = {"department", "tasks"})
-public class Employee {
+public class Employee  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

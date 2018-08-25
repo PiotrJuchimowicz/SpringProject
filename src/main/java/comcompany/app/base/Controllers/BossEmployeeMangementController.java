@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/boss")
@@ -51,12 +49,13 @@ public class BossEmployeeMangementController {
     }
 
     @RequestMapping(value = "employee/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("employee") Employee employee) {
+    public String add(@ModelAttribute("employee") Employee employee, Model model) {
         //validation later
 
         employeeService.create(employee);
 
-        return "boss/index";
+
+        return "boss/employee/menu";
 
     }
 
@@ -68,14 +67,15 @@ public class BossEmployeeMangementController {
 
     //also ModelAndView can be thrown - it contains data and view
     @RequestMapping(value = "/employee/showAll", method = RequestMethod.GET)
-    public ModelAndView showSelected() {
+    public ModelAndView showAll() {
         List<Employee> allEmployees = employeeService.getAll();
         List<String> fieldsListToString = getFieldsToView();
 
 
-        ModelAndView mav = new ModelAndView("boss/employee/showSelected");
+        ModelAndView mav = new ModelAndView("boss/employee/showAll");
         mav.addObject("employees", allEmployees);
         mav.addObject("fields", fieldsListToString);
+
 
         return mav;
     }
@@ -93,15 +93,15 @@ public class BossEmployeeMangementController {
 
 
     //gets parameters from searchForm and returns view with merged lists contains common elements - employees meeting used searching criteria
-    @RequestMapping(value = "employee/showSelected", method = RequestMethod.POST)
-    public String getSelected(@RequestParam(value = "name", required = false) String name,
-                              @RequestParam(value = "surname", required = false) String surname,
-                              @RequestParam(value = "city", required = false) String city,
-                              @RequestParam(value = "lower limit", required = false) Double lowerLimit,
-                              @RequestParam(value = "upper limit", required = false) Double upperLimit,
-                              @RequestParam(value = "position", required = false) Position position,
-                              @RequestParam(value = "email", required = false) String email,
-                              Model model) {
+    @RequestMapping(value = "employee/showFiltered", method = RequestMethod.POST)
+    public String showFiltered(@RequestParam(value = "name", required = false) String name,
+                               @RequestParam(value = "surname", required = false) String surname,
+                               @RequestParam(value = "city", required = false) String city,
+                               @RequestParam(value = "lower limit", required = false) Double lowerLimit,
+                               @RequestParam(value = "upper limit", required = false) Double upperLimit,
+                               @RequestParam(value = "position", required = false) Position position,
+                               @RequestParam(value = "email", required = false) String email,
+                               Model model) {
 
         //contains lists of querry results
         List<List<Employee>> listOfQueriesResults = new LinkedList<>();
@@ -151,11 +151,16 @@ public class BossEmployeeMangementController {
 
         model.addAttribute("employees", mergedList);
 
-        return "boss/employee/showSelected";
+        List<String> fieldsListToString = getFieldsToView();
+
+        model.addAttribute("fields", fieldsListToString);
+
+
+        return "boss/employee/showFiltered";
     }
 
     @RequestMapping(value = "/employee/updateForm", method = RequestMethod.GET)
-    public String updateForm(@RequestParam("id") Long id, Model model) {
+    public String updateForm(@RequestParam("id") Long id, @RequestParam(name = "filtered", required = false) boolean filtered, Model model) {
 
 
         Employee employee = employeeService.read(id);
@@ -169,27 +174,99 @@ public class BossEmployeeMangementController {
         //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
 
+        model.addAttribute("filtered", filtered);
         return "boss/employee/updateForm";
 
     }
 
     @RequestMapping(value = "employee/update", method = RequestMethod.POST)
-    public String updateForm(@ModelAttribute("employee") Employee employee) {
+    public String updateForm(@ModelAttribute("employee") Employee employee, @RequestParam(name = "filtered", required = false) boolean filtered) {
 
 
         employeeService.update(employee);
 
-        return "redirect:/boss/employee/showAll";
+        if (filtered)
+            return "/boss/employee/showFiltered";
+        else
+            return "redirect:/boss/employee/showAll";
 
     }
 
     @RequestMapping(value = "/employee/delete", method = RequestMethod.GET)
-    public String delete(@RequestParam("id") Long id) {
+    public String delete(@RequestParam("id") Long id, @RequestParam("filtered") boolean filtered) {
         employeeService.delete(id);
 
-        return "redirect:/boss/employee/showAll";
+        System.out.println(filtered);
+
+        if (filtered)
+            return "/boss/employee/showFiltered";
+        else
+            return "redirect:/boss/employee/showAll";
+    }
+
+    @RequestMapping(value = "/employee/sortBy", method = RequestMethod.GET)
+    public String getSorted(@RequestParam(name = "filtered", required = false) boolean filtered, @RequestParam("sortBy") String sortBy, Model model) {
+
+        if (filtered) {
+            return "/boss/employee/showFiltered";
+        } else {
+            List<String> fieldsListToString = getFieldsToView();
+            model.addAttribute("fields", fieldsListToString);
+
+            List<Employee> allEmployees = employeeService.getAll();
+            switch (sortBy) {
+                case "Name": {
+                    sortByAttribute(allEmployees,"Name");
+                    break;
+                }
+                case "Surname": {
+                    sortByAttribute(allEmployees,"Surname");
+                    break;
+                }
+                case "Email": {
+                    sortByAttribute(allEmployees,"Email");
+                    break;
+                }
+                case "City": {
+                    sortByAttribute(allEmployees,"City");
+                    break;
+                }
+                case "Salary": {
+                    sortByAttribute(allEmployees,"Salary");
+                    break;
+                }
+                case "Position": {
+                    sortByAttribute(allEmployees,"Position");
+                    break;
+                }
+            }
+
+            model.addAttribute("employees",allEmployees);
+
+
+            return "/boss/employee/showAll";
+        }
+
 
     }
+
+    private List<Employee> sortByAttribute(List<Employee> employeesToSort, String field) {
+        if (field.equals("Name"))
+            employeesToSort.sort(Comparator.comparing(Employee::getName));
+        else if (field.equals("Surname"))
+            employeesToSort.sort(Comparator.comparing(Employee::getSurname));
+        else if(field.equals("Email"))
+            employeesToSort.sort(Comparator.comparing(Employee::getEmail));
+        else if(field.equals("City"))
+            employeesToSort.sort(Comparator.comparing(Employee::getCity));
+        else if(field.equals("Salary"))
+            employeesToSort.sort(Comparator.comparing(Employee::getSalary));
+        else if(field.equals("Position"))
+            employeesToSort.sort(Comparator.comparing(Employee::getPosition));
+
+        return employeesToSort;
+    }
+
 
     private List<String> getFieldsToView() {
         Field[] fields = employeeService.getAllFields(Employee.class);
@@ -209,7 +286,7 @@ public class BossEmployeeMangementController {
         return fieldsListToString;
     }
 
-    private Object[] getPositionsExceptBoss(){
+    private Object[] getPositionsExceptBoss() {
         //getting  possible possitions
         Position[] positions = Position.values();
         //removing ADMIN and BOSS - they shouldnt be able to add in form by BOSS
