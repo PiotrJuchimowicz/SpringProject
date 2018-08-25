@@ -16,7 +16,7 @@
 <div class="container">
 
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
-        <h1 class="display-5">Selected employees:</h1>
+        <h1 class="display-5">All employees:</h1>
         <p class="lead">Below are selected employees by your criteria.</p>
         <hr class="my-4">
         <p> Select option or click on attribute to sort  them.</p>
@@ -26,8 +26,8 @@
 
     <table class="table table-hover" th:object="${employees}">
         <thead>
-        <tr>
-            <th scope="col"th:if="${!employees.isEmpty()}" >#</th>
+        <tr th:if="${!employees.isEmpty()}">
+            <th scope="col" >#</th>
             <th scope="col" style="cursor: pointer"  th:onclick="'rowClicked(\''+'?filtered=false&sortBy=' + ${field} + '\');'"  th:each="field : ${fields}" th:text="${field}"  > <!-- style="cursor: pointer"  th:onclick="'rowClicked(\''+'?arg=' + ${field} + '\');'"-->
             </th>
 
