@@ -29,9 +29,9 @@
         <tr>
             <th scope="col" th:if="${!employees.isEmpty()}">#</th>
             <th:block th:each="field : ${fields}">
-                <th:block th:object="${requiermentWrappers}">
+                <th:block th:object="${requirementWrappers}">
                     <th scope="col" style="cursor: pointer" th:text="${field}"
-                        th:onclick="'rowClicked(\''+'?filtered=true&sortBy=' + ${field}+ '&name='+${requiermentWrappers.get('name')}+ '&surname='+${requiermentWrappers.get('surname')} + '&email='+${requiermentWrappers.get('email')}+ '&city='+${requiermentWrappers.get('city')}+ '&lowerLimit='+${requiermentWrappers.get('lowerLimit')}+'&upperLimit='+${requiermentWrappers.get('upperLimit')} + '&position='+${requiermentWrappers.get('position')} + '\');'"></th>
+                        th:onclick="'rowClicked(\''+'?filtered=true&sortBy=' + ${field}+ '&name='+${requirementWrappers.get('name')}+ '&surname='+${requirementWrappers.get('surname')} + '&email='+${requirementWrappers.get('email')}+ '&city='+${requirementWrappers.get('city')}+ '&lowerLimit='+${requirementWrappers.get('lowerLimit')}+'&upperLimit='+${requirementWrappers.get('upperLimit')} + '&position='+${requirementWrappers.get('position')} + '\');'"></th>
 
                 </th:block>
             </th:block>

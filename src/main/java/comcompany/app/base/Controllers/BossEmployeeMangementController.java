@@ -1,6 +1,5 @@
 package comcompany.app.base.Controllers;
 
-
 import comcompany.app.base.Exceptions.IncorrectFormDataException;
 import comcompany.app.base.Models.Employee;
 import comcompany.app.base.Models.Position;
@@ -35,25 +34,18 @@ public class BossEmployeeMangementController {
     //gets model , sends data to view and returns that view(model is sending behind the scenes)
     @RequestMapping(value = "/employee/addForm", method = RequestMethod.GET)
     public String getForm(Model model) {
-
         model.addAttribute("employee", new Employee());
         Object[] filteredPositions = getPositionsExceptBoss();
-
         //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
-
         return "boss/employee/addForm";
     }
 
     @RequestMapping(value = "employee/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("employee") Employee employee, Model model) {
         //validation later
-
         employeeService.create(employee);
-
-
         return "boss/employee/menu";
-
     }
 
     //returns menu with options how to search for employees
@@ -67,27 +59,19 @@ public class BossEmployeeMangementController {
     public ModelAndView showAll() {
         List<Employee> allEmployees = employeeService.getAll();
         List<String> fieldsListToString = getFieldsToView();
-
-
         ModelAndView mav = new ModelAndView("boss/employee/showAll");
         mav.addObject("employees", allEmployees);
         mav.addObject("fields", fieldsListToString);
-
-
         return mav;
     }
 
     @RequestMapping(value = "/employee/searchForm", method = RequestMethod.GET)
     public String getSearchForm(Model model) {
-
         Object[] filteredPositions = getPositionsExceptBoss();
-
         //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
-
         return "boss/employee/searchForm";
     }
-
 
     //gets parameters from searchForm and returns view with merged lists contains common elements - employees meeting used searching criteria
     @RequestMapping(value = "employee/showFiltered", method = RequestMethod.POST)
@@ -99,51 +83,18 @@ public class BossEmployeeMangementController {
                                @RequestParam(value = "upper limit", required = false) Double upperLimit,
                                @RequestParam(value = "position", required = false) Position position,
                                Model model) {
-
         List<Employee> mergedList;
-
         try {
             mergedList = getEmployeesWithSelectedAttributes(name, surname, city, lowerLimit, upperLimit, position, email);
         } catch (IncorrectFormDataException e) {
             return "/boss/employee/invalidFormData";
         }
-
         model.addAttribute("employees", mergedList);
-
-
         List<String> fieldsListToString = getFieldsToView();
-
-
         model.addAttribute("fields", fieldsListToString);
-
-
-        //sending to view how they've been filtered so after update/delete/sort proper employees will be returned
-
-        Map<String, String> requirementWrappers = new LinkedHashMap<>();
-
-        String secondConstructorArgument;
-        requirementWrappers.put("name", name);
-        requirementWrappers.put("surname", surname);
-        requirementWrappers.put("email", email);
-        requirementWrappers.put("city", city);
-        if (lowerLimit != null)
-            secondConstructorArgument = Double.toString(lowerLimit);
-        else
-            secondConstructorArgument = "";
-        requirementWrappers.put("lowerLimit", secondConstructorArgument);
-        if (upperLimit != null)
-            secondConstructorArgument = Double.toString(upperLimit);
-        else
-            secondConstructorArgument = "";
-        requirementWrappers.put("upperLimit", secondConstructorArgument);
-        if (position != null)
-            secondConstructorArgument = position.toString();
-        else
-            secondConstructorArgument = "";
-        requirementWrappers.put("position", secondConstructorArgument);
-        model.addAttribute("requiermentWrappers", requirementWrappers);
-
-        System.out.println(requirementWrappers);
+        //sending to view how they've been filtered so after update/delete/sort same as filtered employees will be returned
+        Map<String, String> requirementWrappers = getRequirementWrappers(name, surname, email, city, lowerLimit, upperLimit, position);
+        model.addAttribute("requirementWrappers",requirementWrappers);
         return "boss/employee/showFiltered";
     }
 
@@ -279,7 +230,7 @@ public class BossEmployeeMangementController {
                 else
                     secondConstructorArgument = "";
                 requirementWrappers.put("position", secondConstructorArgument);
-                model.addAttribute("requiermentWrappers", requirementWrappers);
+                model.addAttribute("requirementWrappers", requirementWrappers);
 
             }
             return "/boss/employee/showFiltered";
@@ -322,6 +273,36 @@ public class BossEmployeeMangementController {
         }
 
 
+    }
+
+    private Map<String,String> getRequirementWrappers(String name,String surname,
+                                                      String email,String city,Double lowerLimit,
+                                                      Double upperLimit,Position position)
+    {
+        Map<String, String> requirementWrappers = new LinkedHashMap<>();
+
+        String secondConstructorArgument;
+        requirementWrappers.put("name", name);
+        requirementWrappers.put("surname", surname);
+        requirementWrappers.put("email", email);
+        requirementWrappers.put("city", city);
+        if (lowerLimit != null)
+            secondConstructorArgument = Double.toString(lowerLimit);
+        else
+            secondConstructorArgument = "";
+        requirementWrappers.put("lowerLimit", secondConstructorArgument);
+        if (upperLimit != null)
+            secondConstructorArgument = Double.toString(upperLimit);
+        else
+            secondConstructorArgument = "";
+        requirementWrappers.put("upperLimit", secondConstructorArgument);
+        if (position != null)
+            secondConstructorArgument = position.toString();
+        else
+            secondConstructorArgument = "";
+        requirementWrappers.put("position", secondConstructorArgument);
+
+        return  requirementWrappers;
     }
 
     private List<Employee> getEmployeesWithSelectedAttributes(String name, String surname,
