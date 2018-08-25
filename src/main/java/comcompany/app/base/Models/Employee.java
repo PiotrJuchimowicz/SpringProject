@@ -46,10 +46,11 @@ public class Employee  {
     public Employee() {
     }
 
-    public Employee(String name, String surname, String email, double salary, Position position) {
+    public Employee(String name, String surname, String email, String city, double salary, Position position) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.city = city;
         this.salary = salary;
         this.position = position;
     }

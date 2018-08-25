@@ -20,9 +20,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/boss")
 public class BossEmployeeMangementController {
-
     private EmployeeService employeeService;
-
     @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -32,7 +30,6 @@ public class BossEmployeeMangementController {
     @RequestMapping("/employee/menu")
     public String management() {
         return "boss/employee/menu";
-
     }
 
     //gets model , sends data to view and returns that view(model is sending behind the scenes)
@@ -96,66 +93,57 @@ public class BossEmployeeMangementController {
     @RequestMapping(value = "employee/showFiltered", method = RequestMethod.POST)
     public String showFiltered(@RequestParam(value = "name", required = false) String name,
                                @RequestParam(value = "surname", required = false) String surname,
+                               @RequestParam(value = "email", required = false) String email,
                                @RequestParam(value = "city", required = false) String city,
                                @RequestParam(value = "lower limit", required = false) Double lowerLimit,
                                @RequestParam(value = "upper limit", required = false) Double upperLimit,
                                @RequestParam(value = "position", required = false) Position position,
-                               @RequestParam(value = "email", required = false) String email,
                                Model model) {
 
-        //contains lists of querry results
-        List<List<Employee>> listOfQueriesResults = new LinkedList<>();
+        List<Employee> mergedList;
 
-        if (!name.equals("")) {
-            List<Employee> employeesByName = employeeService.findEmployeesByName(name);
-            listOfQueriesResults.add(employeesByName);
-        }
-        if (!surname.equals("")) {
-            List<Employee> employeesBySurname = employeeService.findEmployeesBySurname(surname);
-            listOfQueriesResults.add(employeesBySurname);
-
-        }
-        if (!city.equals("")) {
-            List<Employee> employeesByCity = employeeService.findEmployeesByCity(city);
-            listOfQueriesResults.add(employeesByCity);
-        }
-        if (lowerLimit != null && upperLimit != null) {
-            try {
-                List<Employee> employeesBySalaryBetween = employeeService.findEmployeesBySalaryBetween(lowerLimit, upperLimit);
-                listOfQueriesResults.add(employeesBySalaryBetween);
-            } catch (IncorrectFormDataException e) {
-                return "boss/employee/invalidFormData";
-            }
-        }
-        if (position != null) {
-            List<Employee> employeesByPosition = employeeService.findEmployeesByPosition(position);
-            listOfQueriesResults.add(employeesByPosition);
-        }
-        if (!email.equals("")) {
-            List<Employee> employeesByEmail = employeeService.findEmployeesByEmail(email);
-            listOfQueriesResults.add(employeesByEmail);
-        }
-
-        List<Employee> mergedList = new LinkedList<>();
-
-        boolean isFirstLoop = true;
-
-        for (List<Employee> list : listOfQueriesResults) {
-            if (isFirstLoop) {
-                mergedList.addAll(list);
-                isFirstLoop = false;
-            } else {
-                mergedList.retainAll(list);
-            }
+        try {
+            mergedList = getEmployeesWithSelectedAttributes(name, surname, city, lowerLimit, upperLimit, position, email);
+        } catch (IncorrectFormDataException e) {
+            return "/boss/employee/invalidFormData";
         }
 
         model.addAttribute("employees", mergedList);
 
+
         List<String> fieldsListToString = getFieldsToView();
+
 
         model.addAttribute("fields", fieldsListToString);
 
 
+        //sending to view how they've been filtered so after update/delete/sort proper employees will be returned
+
+        Map<String, String> requirementWrappers = new LinkedHashMap<>();
+
+        String secondConstructorArgument;
+        requirementWrappers.put("name", name);
+        requirementWrappers.put("surname", surname);
+        requirementWrappers.put("email", email);
+        requirementWrappers.put("city", city);
+        if (lowerLimit != null)
+            secondConstructorArgument = Double.toString(lowerLimit);
+        else
+            secondConstructorArgument = "";
+        requirementWrappers.put("lowerLimit", secondConstructorArgument);
+        if (upperLimit != null)
+            secondConstructorArgument = Double.toString(upperLimit);
+        else
+            secondConstructorArgument = "";
+        requirementWrappers.put("upperLimit", secondConstructorArgument);
+        if (position != null)
+            secondConstructorArgument = position.toString();
+        else
+            secondConstructorArgument = "";
+        requirementWrappers.put("position", secondConstructorArgument);
+        model.addAttribute("requiermentWrappers", requirementWrappers);
+
+        System.out.println(requirementWrappers);
         return "boss/employee/showFiltered";
     }
 
@@ -205,9 +193,95 @@ public class BossEmployeeMangementController {
     }
 
     @RequestMapping(value = "/employee/sortBy", method = RequestMethod.GET)
-    public String getSorted(@RequestParam(name = "filtered", required = false) boolean filtered, @RequestParam("sortBy") String sortBy, Model model) {
+    public String getSorted(@RequestParam(name = "filtered", required = false) boolean filtered,
+                            @RequestParam("sortBy") String sortBy,
+                            @RequestParam(value = "name", required = false) String name,
+                            @RequestParam(value = "surname", required = false) String surname,
+                            @RequestParam(value = "email", required = false) String email,
+                            @RequestParam(value = "city", required = false) String city,
+                            @RequestParam(value = "lowerLimit", required = false) Double lowerLimit,
+                            @RequestParam(value = "upperLimit", required = false) Double upperLimit,
+                            @RequestParam(value = "position", required = false) Position position, Model model) {
 
+        //TODO przebudowac zeby byl switch i w switchu w zaleznosci od tego czy filtered czy nie - mniej powtorzen
         if (filtered) {
+            {
+                System.out.println(filtered);
+                System.out.println(sortBy);
+                System.out.println(name);
+                System.out.println(surname);
+                System.out.println(email);
+                System.out.println(city);
+                System.out.println(lowerLimit);
+                System.out.println(upperLimit);
+                System.out.println(position);
+
+                List<Employee> mergedListContainingEmployeesMeetingCriteria;
+
+                try {
+                    mergedListContainingEmployeesMeetingCriteria = getEmployeesWithSelectedAttributes(name, surname, city, lowerLimit, upperLimit, position, email);
+                } catch (IncorrectFormDataException e) {
+                    return "/boss/employee/invalidFormData";
+                }
+
+                switch (sortBy) {
+                    case "Name": {
+                        sortByAttribute(mergedListContainingEmployeesMeetingCriteria, "Name");
+                        break;
+                    }
+                    case "Surname": {
+                        sortByAttribute(mergedListContainingEmployeesMeetingCriteria, "Surname");
+                        break;
+                    }
+                    case "Email": {
+                        sortByAttribute(mergedListContainingEmployeesMeetingCriteria, "Email");
+                        break;
+                    }
+                    case "City": {
+                        sortByAttribute(mergedListContainingEmployeesMeetingCriteria, "City");
+                        break;
+                    }
+                    case "Salary": {
+                        sortByAttribute(mergedListContainingEmployeesMeetingCriteria, "Salary");
+                        break;
+                    }
+                    case "Position": {
+                        sortByAttribute(mergedListContainingEmployeesMeetingCriteria, "Position");
+                        break;
+                    }
+                }
+
+                model.addAttribute("employees", mergedListContainingEmployeesMeetingCriteria);
+                List<String> fieldsListToString = getFieldsToView();
+                model.addAttribute("fields", fieldsListToString);
+
+                //sending to view how they've been filtered so after update/delete/sort proper employees will be returned
+
+                Map<String, String> requirementWrappers = new LinkedHashMap<>();
+
+                String secondConstructorArgument;
+                requirementWrappers.put("name", name);
+                requirementWrappers.put("surname", surname);
+                requirementWrappers.put("email", email);
+                requirementWrappers.put("city", city);
+                if (lowerLimit != null)
+                    secondConstructorArgument = Double.toString(lowerLimit);
+                else
+                    secondConstructorArgument = "";
+                requirementWrappers.put("lowerLimit", secondConstructorArgument);
+                if (upperLimit != null)
+                    secondConstructorArgument = Double.toString(upperLimit);
+                else
+                    secondConstructorArgument = "";
+                requirementWrappers.put("upperLimit", secondConstructorArgument);
+                if (position != null)
+                    secondConstructorArgument = position.toString();
+                else
+                    secondConstructorArgument = "";
+                requirementWrappers.put("position", secondConstructorArgument);
+                model.addAttribute("requiermentWrappers", requirementWrappers);
+
+            }
             return "/boss/employee/showFiltered";
         } else {
             List<String> fieldsListToString = getFieldsToView();
@@ -216,32 +290,32 @@ public class BossEmployeeMangementController {
             List<Employee> allEmployees = employeeService.getAll();
             switch (sortBy) {
                 case "Name": {
-                    sortByAttribute(allEmployees,"Name");
+                    sortByAttribute(allEmployees, "Name");
                     break;
                 }
                 case "Surname": {
-                    sortByAttribute(allEmployees,"Surname");
+                    sortByAttribute(allEmployees, "Surname");
                     break;
                 }
                 case "Email": {
-                    sortByAttribute(allEmployees,"Email");
+                    sortByAttribute(allEmployees, "Email");
                     break;
                 }
                 case "City": {
-                    sortByAttribute(allEmployees,"City");
+                    sortByAttribute(allEmployees, "City");
                     break;
                 }
                 case "Salary": {
-                    sortByAttribute(allEmployees,"Salary");
+                    sortByAttribute(allEmployees, "Salary");
                     break;
                 }
                 case "Position": {
-                    sortByAttribute(allEmployees,"Position");
+                    sortByAttribute(allEmployees, "Position");
                     break;
                 }
             }
 
-            model.addAttribute("employees",allEmployees);
+            model.addAttribute("employees", allEmployees);
 
 
             return "/boss/employee/showAll";
@@ -250,18 +324,71 @@ public class BossEmployeeMangementController {
 
     }
 
+    private List<Employee> getEmployeesWithSelectedAttributes(String name, String surname,
+                                                              String city, Double lowerLimit,
+                                                              Double upperLimit, Position position,
+                                                              String email) {
+        //contains lists of querry results
+        List<List<Employee>> listOfQueriesResults = new LinkedList<>();
+
+        if (!name.equals("")) {
+            List<Employee> employeesByName = employeeService.findEmployeesByName(name);
+            listOfQueriesResults.add(employeesByName);
+        }
+        if (!surname.equals("")) {
+            List<Employee> employeesBySurname = employeeService.findEmployeesBySurname(surname);
+            listOfQueriesResults.add(employeesBySurname);
+
+        }
+        if (!city.equals("")) {
+            List<Employee> employeesByCity = employeeService.findEmployeesByCity(city);
+            listOfQueriesResults.add(employeesByCity);
+        }
+        if (lowerLimit != null && upperLimit != null) {
+            try {
+                List<Employee> employeesBySalaryBetween = employeeService.findEmployeesBySalaryBetween(lowerLimit, upperLimit);
+                listOfQueriesResults.add(employeesBySalaryBetween);
+            } catch (IncorrectFormDataException e) {
+                throw new IncorrectFormDataException(e.getMessage());
+            }
+        }
+        if (position != null) {
+            List<Employee> employeesByPosition = employeeService.findEmployeesByPosition(position);
+            listOfQueriesResults.add(employeesByPosition);
+        }
+        if (!email.equals("")) {
+            List<Employee> employeesByEmail = employeeService.findEmployeesByEmail(email);
+            listOfQueriesResults.add(employeesByEmail);
+        }
+
+        List<Employee> mergedList = new LinkedList<>();
+
+        boolean isFirstLoop = true;
+
+        for (List<Employee> list : listOfQueriesResults) {
+            if (isFirstLoop) {
+                mergedList.addAll(list);
+                isFirstLoop = false;
+            } else {
+                mergedList.retainAll(list);
+            }
+        }
+
+        return mergedList;
+    }
+
     private List<Employee> sortByAttribute(List<Employee> employeesToSort, String field) {
         if (field.equals("Name"))
             employeesToSort.sort(Comparator.comparing(Employee::getName));
         else if (field.equals("Surname"))
             employeesToSort.sort(Comparator.comparing(Employee::getSurname));
-        else if(field.equals("Email"))
+        else if (field.equals("Email"))
             employeesToSort.sort(Comparator.comparing(Employee::getEmail));
-        else if(field.equals("City"))
+        else if (field.equals("City"))
             employeesToSort.sort(Comparator.comparing(Employee::getCity));
-        else if(field.equals("Salary"))
+        else if (field.equals("Salary"))
             employeesToSort.sort(Comparator.comparing(Employee::getSalary));
-        else if(field.equals("Position"))
+        else if (field.equals("Position"))
             employeesToSort.sort(Comparator.comparing(Employee::getPosition));
 
         return employeesToSort;
