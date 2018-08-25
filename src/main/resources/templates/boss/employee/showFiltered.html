@@ -9,21 +9,14 @@
             location.href = "/boss/employee/sortBy" + value;
         }
     </script>
-
 </head>
-
 <body>
 <div class="container">
-
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
         <h1 class="display-5">Selected employees:</h1>
-        <p class="lead">Below are selected employees by your criteria.</p>
         <hr class="my-4">
-        <p> Select option or click on attribute to sort them.</p>
+        <p> Select option or click the attribute to sort employees</p>
     </div>
-
-
-
     <table class="table table-hover" th:object="${employees}">
         <thead>
         <tr>
@@ -32,12 +25,9 @@
                 <th:block th:object="${requirementWrappers}">
                     <th scope="col" style="cursor: pointer" th:text="${field}"
                         th:onclick="'rowClicked(\''+'?filtered=true&sortBy=' + ${field}+ '&name='+${requirementWrappers.get('name')}+ '&surname='+${requirementWrappers.get('surname')} + '&email='+${requirementWrappers.get('email')}+ '&city='+${requirementWrappers.get('city')}+ '&lowerLimit='+${requirementWrappers.get('lowerLimit')}+'&upperLimit='+${requirementWrappers.get('upperLimit')} + '&position='+${requirementWrappers.get('position')} + '\');'"></th>
-
                 </th:block>
             </th:block>
             </th>
-
-
         </tr>
         </thead>
         <tbody>
@@ -68,19 +58,12 @@
                 </td>
             </tr>
         </th:block>
-
-
         </tbody>
         <br>
-
-
     </table>
     <a href="/boss/index" class="btn btn-info" role="button">Return to homepage</a>
     <a href="/boss/employee/searchingCriteria" class="btn btn-info" role="button">Continue searching</a>
-
 </div>
-
-
 <div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
 </body>
 </html>

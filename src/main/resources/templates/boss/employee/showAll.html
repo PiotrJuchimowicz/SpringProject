@@ -4,42 +4,34 @@
     <meta charset="UTF-8">
     <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
     <title>All employees</title>
-     <script>
-         function rowClicked(value) {
-             location.href = "/boss/employee/sortBy" + value;
-         }
-     </script>
-
+    <script>
+        function rowClicked(value) {
+            location.href = "/boss/employee/sortBy" + value;
+        }
+    </script>
 </head>
-
 <body>
 <div class="container">
-
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
         <h1 class="display-5">All employees:</h1>
-        <p class="lead">Below are selected employees by your criteria.</p>
         <hr class="my-4">
-        <p> Select option or click on attribute to sort  them.</p>
+        <p> Select option or click the attribute to sort employees</p>
     </div>
-
-
-
     <table class="table table-hover" th:object="${employees}">
         <thead>
-        <tr th:if="${!employees.isEmpty()}">
-            <th scope="col" >#</th>
-            <th scope="col" style="cursor: pointer"  th:onclick="'rowClicked(\''+'?filtered=false&sortBy=' + ${field} + '\');'"  th:each="field : ${fields}" th:text="${field}"  > <!-- style="cursor: pointer"  th:onclick="'rowClicked(\''+'?arg=' + ${field} + '\');'"-->
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" style="cursor: pointer"
+                th:onclick="'rowClicked(\''+'?filtered=false&sortBy=' + ${field} + '\');'" th:each="field : ${fields}"
+                th:text="${field}">
+                <!-- style="cursor: pointer"  th:onclick="'rowClicked(\''+'?arg=' + ${field} + '\');'"-->
             </th>
-
-
-
         </tr>
         </thead>
         <tbody>
-        <th:block >
-            <tr  th:each="employee,count : ${employees} " >
-
-                <th  th:text="${count.index+1}"   ></th>
+        <th:block>
+            <tr th:each="employee,count : ${employees} ">
+                <th th:text="${count.index+1}"></th>
                 <td th:text="${employee.name}"></td>
                 <td th:text="${employee.surname}"></td>
                 <td th:text="${employee.email}"></td>
@@ -49,32 +41,28 @@
                 <td th:if="${!employees.isEmpty()}">
                     <div class="btn-group">
                         <button type="button" class="btn btn-info">Options</button>
-                        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" th:href="@{/boss/employee/updateForm(filtered=false,id=${employee.id})}">Update</a>
-                            <a class="dropdown-item" th:href="@{/boss/employee/delete(filtered=false,id=${employee.id})}">Delete</a>
+                            <a class="dropdown-item"
+                               th:href="@{/boss/employee/updateForm(filtered=false,id=${employee.id})}">Update</a>
+                            <a class="dropdown-item"
+                               th:href="@{/boss/employee/delete(filtered=false,id=${employee.id})}">Delete</a>
                             <a class="dropdown-item" href="/boss/index">Related tasks</a>
                         </div>
                     </div>
                 </td>
             </tr>
         </th:block>
-
-
         </tbody>
         <br>
-
-
-
     </table>
     <a href="/boss/index" class="btn btn-info" role="button">Return to homepage</a>
     <a href="/boss/employee/searchingCriteria" class="btn btn-info" role="button">Continue searching</a>
     <a href="/boss/employee/showAll" class="btn btn-info" role="button">Refresh</a>
 </div>
-
-
 <div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
 </body>
 </html>

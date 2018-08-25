@@ -8,24 +8,19 @@ position placeholder something like Select Position
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
     <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
-
     <title>Update Employee Form</title>
 </head>
 <body>
-
 <div class="container">
     <br>
     <br>
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
         <h1 class="display-4">Welcome to employee updating page! </h1>
         <hr class="my-4">
-
         <p>Enter data below to update  employee:</p>
     </div>
     <br>
-
     <form action="#" th:action="@{/boss/employee/update}" th:object="${employee}" method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -59,7 +54,6 @@ position placeholder something like Select Position
                 <label>Position:</label>
                 <select class="custom-select mr-sm-2" th:field="*{position}">
                     <option th:each="pos : ${positions}" th:value="${pos}" th:text="${#strings.toLowerCase(pos)}">
-
                     </option>
                 </select>
             </div>
@@ -70,12 +64,8 @@ position placeholder something like Select Position
             <button type="reset" class="btn btn-secondary">Reset </button>
             <a href="/boss/employee/menu" class="btn btn-info" role="button">Return</a>
         </div>
-
-
     </form>
-
 </div>
-
 <div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
 </body>
 </html>
