@@ -18,28 +18,21 @@ import java.util.Set;
 @ToString(exclude = {"department", "tasks", "id"})
 @EqualsAndHashCode(exclude = {"department", "tasks"})
 public class Employee  {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id", updatable = false, nullable = false)
     private Long id;
-
     private String name, surname, email, city;
     private double salary;
-
     @Enumerated(EnumType.STRING)
     private Position position;
-
     @ManyToMany(mappedBy = "employees", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Task> tasks;
-
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "department_id")
     private Department department;
-
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
     private List<Message> sentMessages;
-
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Message> receivedMessages;
 
@@ -67,5 +60,4 @@ public class Employee  {
     public int hashCode() {
         return Objects.hash(id);
     }
-
 }

@@ -16,17 +16,14 @@ import java.util.Set;
 @Getter
 @Setter
 public class Task {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id", updatable = false, nullable = false)
     private Long id;
-
     private String name, description;
     private LocalDate startDate, endDate;
     @Enumerated(EnumType.STRING)
     private Priority priority;
-
     /*JoinCollumns-collumn points to owner side
     inverseJoinCollumns-collumn points to inverse side
     Join Table consists of task_id and employee_id*/

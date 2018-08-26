@@ -8,7 +8,6 @@ import java.util.List;
 //Methods return empty collections or collections of objects meeting the criteria
 @Repository
 public interface DepartmentRepository extends GenericRepository<Department> {
-
     List<Department> findByLocation(String location);
 
     List<Department> findByName(String name);

@@ -12,7 +12,6 @@ import java.util.List;
 //Methods return empty collections or collections of objects meeting the criteria
 @Repository
 public interface EmployeeRepository extends GenericRepository<Employee> {
-
     List<Employee> findEmployeesByDepartment(Department department);
 
     //jpql querry(with sql  there should be  more typical join  expression )
@@ -30,5 +29,4 @@ public interface EmployeeRepository extends GenericRepository<Employee> {
     List<Employee> findEmployeesByPosition(Position position);
 
     List<Employee> findEmployeesBySalaryBetween(Double lowerLimit, Double upperLimit);
-
 }

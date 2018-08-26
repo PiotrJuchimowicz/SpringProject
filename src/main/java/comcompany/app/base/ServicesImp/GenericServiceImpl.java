@@ -15,16 +15,14 @@ import java.util.Optional;
 @Getter
 @Setter
 @NoArgsConstructor
-//TODO catching exceptions in methods and only log is nonsense -need to throw own exception informing that operation failed
 public abstract class GenericServiceImpl<T> implements GenericService<T> {
-
     private GenericRepository<T> genericRepository;
     private Logger log = LoggerFactory.getLogger(getClass().getName());
 
     @Override
     public List<T> getAll() {
         List<T> result = genericRepository.findAll();
-            return result;
+        return result;
 
     }
 
@@ -42,21 +40,16 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
             log.error("Unable to read object from DB");
             throw new RuntimeException("Unable to read object from DB");
         }
-
     }
 
     @Override
     public T update(T object) {
-
         Field field = null;
         /*getdeclaredFields returns all fields
         getFIelds returns only public fields*/
         Field[] fields = object.getClass().getDeclaredFields();
-
-
         String fieldName = fields[0].getName();
         Long fieldIdValue = null;
-
         try {
             field = object.getClass().getDeclaredField(fieldName);
             //setting public id
@@ -64,24 +57,17 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
         } catch (NoSuchFieldException e) {
             log.error("Unable to find field : " + fieldName, e);
         }
-
         try {
             fieldIdValue = (Long) field.get(object);
         } catch (IllegalAccessException e) {
             log.error("Unable to get " + fieldName + " value", e);
-
+        } catch (NullPointerException e) {
+            log.error("Field " + fieldName + " is null", e);
         }
-        catch (NullPointerException e)
-        {
-            log.error("Field " + fieldName +" is null",e);
-        }
-
         /*The above code ensures that this object is persisted in DB.
         The goal of this method is to update(not add) - So we must be sure that every single object will be updated
         * Without him I dont know whether this method adds  or update  */
-
         return genericRepository.save(object);
-
     }
 
     @Override
@@ -100,7 +86,5 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
     public Field[] getAllFields(Class<T> c) {
 
         return c.getDeclaredFields();
-
     }
-
 }

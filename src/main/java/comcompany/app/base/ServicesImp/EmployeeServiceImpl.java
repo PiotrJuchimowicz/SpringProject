@@ -15,7 +15,6 @@ import java.util.List;
 
 @Service
 public class EmployeeServiceImpl extends GenericServiceImpl<Employee> implements EmployeeService {
-
     @Autowired
     public void setRepository(GenericRepository<Employee> employeeRepository) {
         this.setGenericRepository(employeeRepository);
@@ -81,7 +80,5 @@ public class EmployeeServiceImpl extends GenericServiceImpl<Employee> implements
 
         List<Employee> querryResult = employeeRepository.findEmployeesByEmail(email);
         return querryResult;
-
     }
-
 }

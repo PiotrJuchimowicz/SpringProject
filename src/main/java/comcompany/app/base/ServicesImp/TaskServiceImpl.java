@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskService {
-
     @Autowired
     public void setRepository(GenericRepository<Task> taskRepository) {
         this.setGenericRepository(taskRepository);
@@ -22,7 +21,6 @@ public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskSer
 
     @Override
     public List<Task> findFinishedTasksInTimeRange(LocalDate lowerRange, LocalDate upperRange) {
-
         TaskRepository taskRepository = (TaskRepository) this.getGenericRepository();
         List<Task> queryResult = taskRepository.findFinishedTasksInTimeRange(lowerRange, upperRange);
         return queryResult;
@@ -47,7 +45,5 @@ public class TaskServiceImpl extends GenericServiceImpl<Task> implements TaskSer
         TaskRepository taskRepository = (TaskRepository) this.getGenericRepository();
         List<Task> queryResult = taskRepository.findByName(name);
         return queryResult;
-
     }
-
 }

@@ -9,7 +9,6 @@ import java.util.List;
 
 
 public interface EmployeeService extends GenericService<Employee> {
-
     List<Employee> findEmployeesByDepartment(Department department);
 
     List<Employee> findEmployeesByPosition(Position position);
@@ -25,5 +24,4 @@ public interface EmployeeService extends GenericService<Employee> {
     List<Employee> findEmployeesBySurname(String surname);
 
     List<Employee> findEmployeesByEmail(String email);
-
 }

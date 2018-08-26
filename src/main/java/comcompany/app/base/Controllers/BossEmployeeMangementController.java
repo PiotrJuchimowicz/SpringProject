@@ -244,11 +244,8 @@ public class BossEmployeeMangementController {
             List<Employee> employeesByEmail = employeeService.findEmployeesByEmail(email);
             listOfQueriesResults.add(employeesByEmail);
         }
-
         List<Employee> mergedList = new LinkedList<>();
-
         boolean isFirstLoop = true;
-
         for (List<Employee> list : listOfQueriesResults) {
             if (isFirstLoop) {
                 mergedList.addAll(list);
@@ -274,7 +271,6 @@ public class BossEmployeeMangementController {
         else if (field.equals("Position"))
             employeesToSort.sort(Comparator.comparing(Employee::getPosition));
     }
-
 
     private List<String> getFieldsToView() {
         Field[] fields = employeeService.getAllFields(Employee.class);

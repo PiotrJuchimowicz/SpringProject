@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 public interface GenericService<T> {
-
     List<T> getAll();
 
     T create(T object);
@@ -18,5 +17,4 @@ public interface GenericService<T> {
     void deleteAll();
 
     Field[] getAllFields(Class<T> c);
-
 }

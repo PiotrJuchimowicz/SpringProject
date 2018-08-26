@@ -12,14 +12,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/boss")
 public class BossIndexController {
-
     //returns initial boss view
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
-
         return "boss/index";
-
-
     }
-
 }

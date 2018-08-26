@@ -14,14 +14,12 @@ import java.util.Set;
 @Getter
 @Setter
 public class Department {
-
     //Hibernate generates id at object creation time not before pushing to DB
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "department_id", updatable = false, nullable = false)
     private Long id;
     private String name, location;
-
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private Set<Employee> employees;
 
@@ -29,5 +27,4 @@ public class Department {
         this.name = name;
         this.location = location;
     }
-
 }
