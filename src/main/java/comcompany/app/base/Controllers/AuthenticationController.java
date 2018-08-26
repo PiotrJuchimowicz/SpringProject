@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuthenticationController {
 
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @RequestMapping(value = "/loginForm",method = RequestMethod.GET)
     public String login() {
-        return "login";
+        return "loginForm";
     }
 
-    @RequestMapping(value = "/authentication",method = RequestMethod.POST)
-    public String authenticate(@RequestParam("email") String email, @RequestParam("password") String passwrd) {
-        System.out.println(email);
-        System.out.println(passwrd);
+    @RequestMapping(value = "/loginProcessing",method = RequestMethod.POST)
+    public String authenticate(@RequestParam("username") String username, @RequestParam("password") String password) {
+        System.out.println(username);
+        System.out.println(password);
 
         return "boss/index";
     }
