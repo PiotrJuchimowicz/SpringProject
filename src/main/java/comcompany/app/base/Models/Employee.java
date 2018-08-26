@@ -16,7 +16,6 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString(exclude = {"department", "tasks", "id"})
-@EqualsAndHashCode(exclude = {"department", "tasks"})
 public class Employee  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
