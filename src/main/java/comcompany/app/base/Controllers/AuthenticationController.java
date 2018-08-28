@@ -1,9 +1,13 @@
 package comcompany.app.base.Controllers;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 @Controller
 public class AuthenticationController {
@@ -13,11 +17,9 @@ public class AuthenticationController {
         return "loginForm";
     }
 
-    @RequestMapping(value = "/loginProcessing",method = RequestMethod.POST)
-    public String authenticate(@RequestParam("username") String username, @RequestParam("password") String password) {
-        System.out.println(username);
-        System.out.println(password);
 
+    @RequestMapping(value = "/",method = RequestMethod.GET)
+    public String index() {
         return "boss/index";
     }
 }

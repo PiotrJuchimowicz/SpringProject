@@ -12,10 +12,29 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("{noop}pass").roles("USER");
+        auth
+                .inMemoryAuthentication()
+                    .withUser("user").password("{noop}user").roles("USER")
+                .and()
+                    .withUser("admin").password("{noop}admin").roles("ADMIN")
+                .and()
+                    .withUser("boss").password("{noop}boss").roles("BOSS");
+
     }
 
     @Override
+    protected  void configure(HttpSecurity http) throws  Exception
+    {
+        http.authorizeRequests()
+                    .anyRequest().authenticated()
+                .and()
+                    .formLogin()
+                        .loginPage("/loginForm")
+                        .loginProcessingUrl("/authenticateUser")
+                        .permitAll();//gives access to listed views(loginForm,authenticateUser) to everyone
+
+    }
+   /* @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
@@ -29,7 +48,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         .permitAll()
                     .usernameParameter("username")
                     .passwordParameter("password");
-    }
+    }*/
 
     @Override
     public void configure(WebSecurity web) throws Exception {
