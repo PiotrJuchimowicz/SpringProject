@@ -22,4 +22,10 @@ public class AuthenticationController {
     public String index() {
         return "boss/index";
     }
+
+    @RequestMapping(value = "/authenticateUser",method = RequestMethod.POST)
+    public void method()
+    {
+        System.out.println("HI");
+    }
 }

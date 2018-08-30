@@ -5,6 +5,7 @@ import comcompany.app.base.Models.Employee;
 import comcompany.app.base.Models.Position;
 import comcompany.app.base.Services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +36,15 @@ public class BossEmployeeMangementController {
     //gets model , sends data to view and returns that view(model is sending behind the scenes)
     @RequestMapping(value = "/employee/addForm", method = RequestMethod.GET)
     public String getForm(Model model) {
+       /* //!!!!!!!!!!!!
+        String password="1234";
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String passwordHash= encoder.encode(password);
+        System.out.println(passwordHash);
+        Employee employee = new Employee("Piotr","Juchimowicz","piotrjuchimowicz@gmail.com","Bialystok",true,2500, Position.BOSS);
+        employee.setPasswordHash(passwordHash);
+        employeeService.create(employee);
+        //!!!!!!!!!!!!!!*/
         model.addAttribute("employee", new Employee());
         Object[] filteredPositions = getPositionsExceptBoss();
         //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
@@ -281,6 +291,8 @@ public class BossEmployeeMangementController {
                 //conversion from Email to E-mail
                 if (fieldToString.equals("Email"))
                     fieldToString = "E-mail";
+                if(fieldToString.equals("Passwordhash")||fieldToString.equals("Enabled"))
+                    continue;
                 fieldsListToString.add(fieldToString);
             }
         }

@@ -22,6 +22,8 @@ public class Employee  {
     @Column(name = "person_id", updatable = false, nullable = false)
     private Long id;
     private String name, surname, email, city;
+    private String passwordHash;
+    private boolean enabled=true;
     private double salary;
     @Enumerated(EnumType.STRING)
     private Position position;
@@ -38,11 +40,12 @@ public class Employee  {
     public Employee() {
     }
 
-    public Employee(String name, String surname, String email, String city, double salary, Position position) {
+    public Employee(String name, String surname, String email, String city, boolean enabled, double salary, Position position) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.city = city;
+        this.enabled = enabled;
         this.salary = salary;
         this.position = position;
     }
