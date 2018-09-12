@@ -22,7 +22,7 @@ public class Employee  {
     @Column(name = "person_id", updatable = false, nullable = false)
     private Long id;
     private String name, surname, email, city;
-    private String passwordHash;
+    private String password;
     private boolean enabled=true;
     private double salary;
     @Enumerated(EnumType.STRING)

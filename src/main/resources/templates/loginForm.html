@@ -11,7 +11,7 @@
         <h1 class="display-4">Welcome to the start page </h1>
         <hr class="my-4">
     </div>
-    <form  action="#" th:action="@{/authenticateUser}" method="post">
+    <form   name="loginForm"  th:action="@{/loginProcessing}" method="post">
         <!--<div class="form-row">-->
             <div class="form-group col-md-4">
                 <label for="username">Username:</label>
@@ -21,14 +21,7 @@
                 <label for="password">Password:</label>
                 <input name="password" type="password" class="form-control" id="password">
             </div>
-        <!--</div>-->
-        <div class="form-group form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" type="checkbox"> Remember me
-            </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Login</button>
         <button type="reset" class="btn btn-primary">Reset</button>
     </form>
 </div>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
+    <title>Boss management</title>
+</head>
+<body>
+<div class="container" style="font-size: 20px">
+    <div th:replace="admin/index.html :: navbar"></div>
+    <div class="jumbotron" style="background-color:inherit;justify-content: space-between">
+        <p class="lead">Welcome to boss management page</p>
+        <hr class="my-4">
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="/admin/boss/addForm">Add boss</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/boss/searchingCriteria">Search for boss</a>
+        </li>
+    </ul>
+</div>
+<div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
+</body>
+</html>

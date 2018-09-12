@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
+    <title>Please login</title>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
+        <h1 class="display-4">You've provided incorrect login data! </h1>
+        <hr class="my-4">
+        <a class="btn btn-primary" href="/homepage" role="button">Return to login page</a>
+    </div>
+</div>
+<div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
+</body>
+</html>

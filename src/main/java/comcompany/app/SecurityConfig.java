@@ -25,42 +25,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String adminPassword = encoder.encode("admin");
-        String bossPassword = encoder.encode("boss");
         auth
-                /* .jdbcAuthentication()
-                 .dataSource(dataSource)
-                 .usersByUsernameQuery("SELECT email,password_hash,enabled FROM EMPLOYEE WHERE email=?")
-                 .authoritiesByUsernameQuery("SELECT email,position FROM EMPLOYEE WHERE email=?")*/
-                /*.groupAuthoritiesByUsername("")*/
-                /*.passwordEncoder(new BCryptPasswordEncoder())*/
-                /*.and()*/
-                .inMemoryAuthentication().passwordEncoder(encoder)
-                .withUser("admin").password(adminPassword).roles("ADMIN")//lead admin in memory
-                .and()
-                .withUser("boss").password(bossPassword).roles("BOSS");
 
+                .inMemoryAuthentication().passwordEncoder(encoder)
+                .withUser("admin").password(adminPassword).authorities("ADMIN");//lead admin in memory
+
+        auth.    jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("SELECT email,password,enabled FROM EMPLOYEE WHERE email=?")
+                .authoritiesByUsernameQuery("SELECT email,position FROM EMPLOYEE WHERE email=?")
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
-/*
-https://stackoverflow.com/questions/30819337/multiple-antmatchers-in-spring-security
-Kolejnosc jest tu mega wazna na poczatku wchodzi przez filtr ze kazdy moze wejsc w index,potem ze
-admin moze w "/boss/employee/addForm" i boss moze w  "/boss/employee/searchForm")
-a reszta URL wymaga bycia zalogowanym
- */
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/boss/index").permitAll()
-                .antMatchers("/boss/employee/addForm").hasRole("ADMIN")
-                .antMatchers("/boss/employee/searchForm").hasRole("BOSS")
+                //hasRole-ROLE_ADMIN
+                //hasAuthority-ADMIN
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/boss/**").hasAuthority("BOSS")
+                .antMatchers("/employee/**").hasAuthority("EMPLOYEE")
                 .anyRequest().authenticated()
-
                 .and()
                 .formLogin()
+                .defaultSuccessUrl("/homepage", true)
+                .failureUrl("/badLogin")
                 .loginPage("/loginForm")
-                .loginProcessingUrl("/authenticateUser")
+                .permitAll()
+                .loginProcessingUrl("/loginProcessing")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/loginForm")
                 .permitAll();
-
 
 
     }

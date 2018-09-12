@@ -75,10 +75,10 @@ public class EmployeeServiceImpl extends GenericServiceImpl<Employee> implements
     }
 
     @Override
-    public List<Employee> findEmployeesByEmail(String email) {
+    public Employee findEmployeesByEmail(String email) {
         EmployeeRepository employeeRepository = (EmployeeRepository) this.getGenericRepository();
 
-        List<Employee> querryResult = employeeRepository.findEmployeesByEmail(email);
+        Employee querryResult = employeeRepository.findEmployeesByEmail(email);
         return querryResult;
     }
 }

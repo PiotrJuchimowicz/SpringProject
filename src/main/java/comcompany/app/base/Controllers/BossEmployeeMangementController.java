@@ -30,6 +30,7 @@ public class BossEmployeeMangementController {
     //returns view for Employees mangement
     @RequestMapping("/employee/menu")
     public String management() {
+
         return "boss/employee/menu";
     }
 
@@ -44,6 +45,7 @@ public class BossEmployeeMangementController {
         Employee employee = new Employee("Piotr","Juchimowicz","piotrjuchimowicz@gmail.com","Bialystok",true,2500, Position.BOSS);
         employee.setPasswordHash(passwordHash);
         employeeService.create(employee);
+        employeeService.create(employee);
         //!!!!!!!!!!!!!!*/
         model.addAttribute("employee", new Employee());
         Object[] filteredPositions = getPositionsExceptBoss();
@@ -55,6 +57,8 @@ public class BossEmployeeMangementController {
     @RequestMapping(value = "employee/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("employee") Employee employee, Model model) {
         //validation later
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        employee.setPassword(encoder.encode("1234"));
         employeeService.create(employee);
         return "boss/employee/menu";
     }
@@ -124,8 +128,9 @@ public class BossEmployeeMangementController {
 
     @RequestMapping(value = "employee/update", method = RequestMethod.POST)
     public String updateForm(@ModelAttribute("employee") Employee employee, Model model) {
+        employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
         employeeService.update(employee);
-        return "/boss/index";
+        return "redirect:/boss/index";
     }
 
     @RequestMapping(value = "/employee/delete", method = RequestMethod.GET)
@@ -251,7 +256,9 @@ public class BossEmployeeMangementController {
             listOfQueriesResults.add(employeesByPosition);
         }
         if (!email.equals("")) {
-            List<Employee> employeesByEmail = employeeService.findEmployeesByEmail(email);
+            Employee employee = employeeService.findEmployeesByEmail(email);
+            List<Employee> employeesByEmail=new LinkedList<>();
+            employeesByEmail.add(employee);
             listOfQueriesResults.add(employeesByEmail);
         }
         List<Employee> mergedList = new LinkedList<>();
@@ -291,7 +298,7 @@ public class BossEmployeeMangementController {
                 //conversion from Email to E-mail
                 if (fieldToString.equals("Email"))
                     fieldToString = "E-mail";
-                if(fieldToString.equals("Passwordhash")||fieldToString.equals("Enabled"))
+                if(fieldToString.equals("Password")||fieldToString.equals("Enabled"))
                     continue;
                 fieldsListToString.add(fieldToString);
             }

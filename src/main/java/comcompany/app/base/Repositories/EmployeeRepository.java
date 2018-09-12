@@ -22,7 +22,7 @@ public interface EmployeeRepository extends GenericRepository<Employee> {
 
     List<Employee> findEmployeesByName(String name);
 
-    List<Employee> findEmployeesByEmail(String email);
+    Employee  findEmployeesByEmail(String email);
 
     List<Employee> findEmployeesBySurname(String surname);
 

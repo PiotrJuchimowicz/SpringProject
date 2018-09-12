@@ -14,7 +14,7 @@
             <a class="nav-link" href="/boss/index">Start</a>
         </li>
         <li class="nav-item ">
-            <a class="nav-link" href="#">Profile</a>
+            <a class="nav-link" href="/boss/profile">Profile</a>
         </li>
         <li class="nav-item ">
             <a class="nav-link" href="/boss/employee/menu">Employees management</a>
@@ -28,11 +28,16 @@
         <li class="nav-item">
             <a class="nav-link" href="#">Messages</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/logout}">Log out</a>
+        </li>
     </ul>
 </nav>
 <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
-    <h1 class="display-5">Hello, Boss!</h1> <!--later there can be his name and surname-->
-    <p class="lead">Welcome to company management system</p>
+    <th:block th:object="${boss}">
+    <h1 class="display-5" th:text=" 'Welcome ' + ${boss.name} + ' ' + ${boss.surname}" >!</h1>
+    </th:block>
+
     <hr class="my-4">
 
 </div>

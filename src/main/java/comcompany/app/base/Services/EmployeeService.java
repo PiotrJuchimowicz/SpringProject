@@ -23,5 +23,5 @@ public interface EmployeeService extends GenericService<Employee> {
 
     List<Employee> findEmployeesBySurname(String surname);
 
-    List<Employee> findEmployeesByEmail(String email);
+    Employee findEmployeesByEmail(String email);
 }
