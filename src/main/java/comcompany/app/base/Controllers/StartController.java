@@ -37,7 +37,6 @@ public class StartController {
                 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //TODO make more smart
         String authority =userDetails.getAuthorities().toArray()[0].toString();
-        System.out.println(authority);
        if (authority.equals("ADMIN"))
             return "redirect:admin/index";
         if (authority.equals("BOSS"))

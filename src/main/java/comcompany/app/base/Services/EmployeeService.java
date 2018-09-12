@@ -23,5 +23,6 @@ public interface EmployeeService extends GenericService<Employee> {
 
     List<Employee> findEmployeesBySurname(String surname);
 
+    //TODO make email unique
     Employee findEmployeesByEmail(String email);
 }
