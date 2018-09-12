@@ -44,8 +44,8 @@ public class AdminController {
     public String add(@ModelAttribute("boss") Employee boss) {
         //TODO validation -server and client side
         boss.setPosition(Position.BOSS);
-        //temporary before fully implement password feature
-        boss.setPassword(new BCryptPasswordEncoder().encode("1234"));
+        //mail to boss
+        boss.setPassword(new BCryptPasswordEncoder().encode(boss.getPassword()));
         employeeService.create(boss);
         return "admin/boss/menu";
     }
