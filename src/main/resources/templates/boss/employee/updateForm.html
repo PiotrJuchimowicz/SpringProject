@@ -58,6 +58,7 @@
             <button type="reset" class="btn btn-secondary">Reset</button>
             <a href="/boss/employee/menu" class="btn btn-info" role="button">Return</a>
         </div>
+        <input type="hidden" th:field="*{password}">
     </form>
 </div>
 <div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>

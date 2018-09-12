@@ -127,7 +127,7 @@ public class BossEmployeeMangementController {
     @RequestMapping(value = "/employee/delete", method = RequestMethod.GET)
     public String delete(@RequestParam("id") Long id) {
         employeeService.delete(id);
-       return "/boss/index";
+       return "redirect:/boss/index";
     }
 
     @RequestMapping(value = "/employee/sortBy", method = RequestMethod.GET)
