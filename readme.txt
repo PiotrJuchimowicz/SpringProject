@@ -14,3 +14,7 @@ Technology stack:
 You can login using super admin account with:
 login:admin
 password:admin
+or using prepared boss account with:
+login:boss
+password:boss
+Application works on port 8084(http)
