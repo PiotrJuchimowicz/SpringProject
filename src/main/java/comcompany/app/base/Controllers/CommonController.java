@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,22 @@ public class CommonController {
         this.employeeService=employeeService;
     }
 
+    @RequestMapping(value = "/showProfile",method = RequestMethod.GET)
+    public String profile(Model model)
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        String email= user.getUsername();
+        Employee employee = employeeService.findEmployeesByEmail(email);
+        if(employee==null)
+        {
+            log.warn("Unable to load profile. You may be super admin.");
+            log.warn("Redirection to homepage");
+            return "redirect:homepage.";
+        }
+        model.addAttribute("employee",employee);
+        return "profile";
+    }
     @RequestMapping(value = "/deleteProfile",method = RequestMethod.GET)
     public String deleteProfile(@RequestParam("email") String email, HttpServletRequest request, HttpServletResponse response)
     {
@@ -42,6 +59,12 @@ public class CommonController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/loginForm";
+    }
+    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+    public String updateForm(@ModelAttribute("employee") Employee employee) {
+        employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
+        employeeService.update(employee);
+        return "redirect:/showProfile";
     }
 
     @RequestMapping(value = "/changePasswordForm",method = RequestMethod.GET)

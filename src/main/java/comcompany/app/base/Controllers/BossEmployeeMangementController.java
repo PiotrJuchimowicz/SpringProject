@@ -48,7 +48,8 @@ public class BossEmployeeMangementController {
     public String add(@ModelAttribute("employee") Employee employee) {
         //validation later
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        employee.setPassword(encoder.encode("1234"));
+        //temporary password with should be changed by user after login
+        employee.setPassword(encoder.encode(employee.getPassword()));
         employeeService.create(employee);
         return "boss/employee/menu";
     }

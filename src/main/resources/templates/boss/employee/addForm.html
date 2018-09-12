@@ -5,7 +5,7 @@
     <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
     <title>Add Employee Form</title>
 </head>
-<body >
+<body>
 <div class="container">
     <br>
     <br>
@@ -29,19 +29,20 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="city">City:</label>
-                <input type="text" class="form-control" id="city" placeholder="Enter city" required th:field="*{city}">
-            </div>
-            <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
                 <input type="email" class="form-control" id="email" placeholder="Enter e-mail" required
                        th:field="*{email}">
             </div>
+            <div class="form-group col-md-6">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter password" required
+                       th:field="*{password}">
+            </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="salary">Salary:</label>
-                <input type="number" class="form-control" id="salary" required th:field="*{salary}">
+                <label for="city">City:</label>
+                <input type="text" class="form-control" id="city" placeholder="Enter city" required th:field="*{city}">
             </div>
             <div class="form-group col-md-6">
                 <label>Position:</label>
@@ -51,10 +52,16 @@
                 </select>
             </div>
         </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="salary">Salary:</label>
+                <input type="number" class="form-control" id="salary" required th:field="*{salary}">
+            </div>
+        </div>
         <br>
         <div class="btn-group" role="group" aria-label="Basic example">
             <button type="submit" class="btn btn-primary">Add</button>
-            <button type="reset" class="btn btn-secondary">Reset </button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
             <a href="/boss/employee/menu" class="btn btn-info" role="button">Return</a>
         </div>
     </form>
