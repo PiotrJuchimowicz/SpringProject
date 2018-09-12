@@ -1,6 +1,6 @@
 This Application provides tasks managing in a software company.
 
-Project is still developed.
+Project is still developed. Very early version.
 
 Technology stack:
 -Java 8
@@ -8,7 +8,13 @@ Technology stack:
 -Spring(Core,Data,MVC,Boot,Security)
 -Hibernate
 -Maven
--Junit 5 
 -Project Lombok(I recommend installing  Lombok plugin in IDE)
 -Thymelaf as template engine 
--SLF4J with Logback
+
+You can login using super admin account with:
+login:admin
+password:admin
+or using prepared boss account with:
+login:boss
+password:boss
+Application works on port 8084(http)
