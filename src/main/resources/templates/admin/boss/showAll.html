@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
+    <title>All employees</title>
+    <script>
+        function rowClicked(value) {
+            location.href = "/boss/employee/sortBy" + value;
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
+        <h1 class="display-5">All bosses:</h1>
+        <hr class="my-4">
+        <p> Select option or click the attribute to sort employees</p>
+    </div>
+    <table class="table table-hover" th:object="${employees}" >
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block>
+            <tr th:each="employee,count : ${employees} ">
+                <th th:text="${count.index+1}"></th>
+                <td th:text="${employee.name}"></td>
+                <td th:text="${employee.surname}"></td>
+                <td th:text="${employee.email}"></td>
+                <td th:text="${employee.city}"></td>
+                <td th:text="${employee.salary}"></td>
+                <td th:text="${employee.position.name().toLowerCase()}"></td>
+                <td th:if="${!employees.isEmpty()}">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info">Options</button>
+                        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item"
+                               href="#">Update</a>
+                            <a class="dropdown-item"
+                               href="#">Delete</a>
+                            <a class="dropdown-item" href="#">Related tasks</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+        <br>
+    </table>
+    <a href="/admin/index" class="btn btn-info" role="button">Return to homepage</a>
+    <a href="/admin/boss/searchingCriteria" class="btn btn-info" role="button">Continue searching</a>
+    <a href="#" class="btn btn-info" role="button">Refresh</a>
+</div>
+<div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
+</body>
+</html>

@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
-    <title>Boss management</title>
+    <title>Show selection</title>
 </head>
 <body>
 <div class="container" style="font-size: 20px">
     <div th:replace="admin/index.html :: navbar"></div>
-    <div class="jumbotron" style="background-color:inherit;justify-content: space-between">
-        <p class="lead">Welcome to boss management page</p>
+    </nav>
+    <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
+        <p class="lead">Select searching criteria</p>
         <hr class="my-4">
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="/admin/boss/addForm">Add boss</a>
+            <a class="nav-link active" href="/admin/boss/showAll">Search for all bosses</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/admin/boss/searchingCriteria">Search for boss</a>
+            <a class="nav-link" href="#">Search for boss by criteria</a>
         </li>
     </ul>
 </div>
