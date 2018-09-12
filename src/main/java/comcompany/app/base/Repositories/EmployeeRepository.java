@@ -14,7 +14,6 @@ import java.util.List;
 public interface EmployeeRepository extends GenericRepository<Employee> {
     List<Employee> findEmployeesByDepartment(Department department);
 
-    //jpql querry(with sql  there should be  more typical join  expression )
     @Query("select employee From Employee employee  where :task in (employee.tasks)")
     List<Employee> findEmployeesWorkingOnTask(@Param("task") Task task);
 

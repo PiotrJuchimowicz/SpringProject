@@ -23,7 +23,6 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
     public List<T> getAll() {
         List<T> result = genericRepository.findAll();
         return result;
-
     }
 
     @Override

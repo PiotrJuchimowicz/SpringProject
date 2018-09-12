@@ -1,9 +1,4 @@
-<!--TODO
-server and client validation
-all to left allign
-salary proper placeholder
-position placeholder something like Select Position
--->
+<!--TODO client validation-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,14 +6,13 @@ position placeholder something like Select Position
     <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
     <title>Adding Boss</title>
 </head>
-<body >
+<body>
 <div class="container">
     <br>
     <br>
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
         <h1 class="display-4">Welcome to boss adding page! </h1>
         <hr class="my-4">
-
         <p>Enter data below to add a new employee:</p>
     </div>
     <br>
@@ -54,7 +48,7 @@ position placeholder something like Select Position
         <br>
         <div class="btn-group" role="group" aria-label="Basic example">
             <button type="submit" class="btn btn-primary">Add</button>
-            <button type="reset" class="btn btn-secondary">Reset </button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
             <a href="/admin/boss/menu" class="btn btn-info" role="button">Return</a>
         </div>
     </form>

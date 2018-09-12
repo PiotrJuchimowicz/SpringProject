@@ -40,8 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                //hasRole-ROLE_ADMIN
-                //hasAuthority-ADMIN
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/boss/**").hasAuthority("BOSS")
                 .antMatchers("/employee/**").hasAuthority("EMPLOYEE")
@@ -63,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    //ignoring static resources by Spring Security
+    //ignore static resources by Spring Security
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.

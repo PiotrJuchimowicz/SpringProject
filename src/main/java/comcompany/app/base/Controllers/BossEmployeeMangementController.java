@@ -37,25 +37,15 @@ public class BossEmployeeMangementController {
     //gets model , sends data to view and returns that view(model is sending behind the scenes)
     @RequestMapping(value = "/employee/addForm", method = RequestMethod.GET)
     public String getForm(Model model) {
-       /* //!!!!!!!!!!!!
-        String password="1234";
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String passwordHash= encoder.encode(password);
-        System.out.println(passwordHash);
-        Employee employee = new Employee("Piotr","Juchimowicz","piotrjuchimowicz@gmail.com","Bialystok",true,2500, Position.BOSS);
-        employee.setPasswordHash(passwordHash);
-        employeeService.create(employee);
-        employeeService.create(employee);
-        //!!!!!!!!!!!!!!*/
         model.addAttribute("employee", new Employee());
         Object[] filteredPositions = getPositionsExceptBoss();
-        //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
+        //sending positions(without boss  - because boss is created by admin) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
         return "boss/employee/addForm";
     }
 
     @RequestMapping(value = "employee/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("employee") Employee employee, Model model) {
+    public String add(@ModelAttribute("employee") Employee employee) {
         //validation later
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         employee.setPassword(encoder.encode("1234"));
@@ -83,12 +73,12 @@ public class BossEmployeeMangementController {
     @RequestMapping(value = "/employee/searchForm", method = RequestMethod.GET)
     public String getSearchForm(Model model) {
         Object[] filteredPositions = getPositionsExceptBoss();
-        //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
+        //sending positions(without boss  - because boss is adding by admin) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
         return "boss/employee/searchForm";
     }
 
-    //gets parameters from searchForm and returns view with merged lists contains common elements - employees meeting used searching criteria
+    //gets parameters from searchForm and returns view with merged lists contains common elements - employees meeting chosen criteria
     @RequestMapping(value = "employee/showFiltered", method = RequestMethod.POST)
     public String showFiltered(@RequestParam(value = "name", required = false) String name,
                                @RequestParam(value = "surname", required = false) String surname,
@@ -119,7 +109,7 @@ public class BossEmployeeMangementController {
         model.addAttribute("employee", employee);
         //getting  possible possitions
         Position[] positions = Position.values();
-        //removing ADMIN and BOSS - they shouldnt be able to add in form by BOSS
+        //removing BOSS - only admin is allowed to add him
         Object[] filteredPositions = Arrays.stream(positions).filter(position -> (position != Position.BOSS)).toArray();
         //sending positions(without boss  - because boss is only one) to view in case of iterate them in radio -form
         model.addAttribute("positions", filteredPositions);
@@ -228,7 +218,7 @@ public class BossEmployeeMangementController {
                                                               String city, Double lowerLimit,
                                                               Double upperLimit, Position position,
                                                               String email) {
-        //contains lists of querry results
+        //contains lists of query results
         List<List<Employee>> listOfQueriesResults = new LinkedList<>();
         if (!name.equals("")) {
             List<Employee> employeesByName = employeeService.findEmployeesByName(name);
@@ -309,7 +299,7 @@ public class BossEmployeeMangementController {
     private Object[] getPositionsExceptBoss() {
         //getting  possible possitions
         Position[] positions = Position.values();
-        //removing ADMIN and BOSS - they shouldnt be able to add in form by BOSS
+        //removing  BOSS - they can be add only by admin
         return Arrays.stream(positions).filter(position -> (position != Position.BOSS)).toArray();
     }
 }

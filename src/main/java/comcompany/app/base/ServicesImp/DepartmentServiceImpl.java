@@ -30,5 +30,4 @@ public class DepartmentServiceImpl extends GenericServiceImpl<Department> implem
         List<Department> querryResult = departmentRepository.findByName(name);
         return querryResult;
     }
-
 }

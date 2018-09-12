@@ -13,7 +13,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-//TODO divide into Entity and Dto
 public class Department {
     //Hibernate generates id at object creation time not before pushing to DB
     @Id

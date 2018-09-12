@@ -35,15 +35,16 @@ public class AdminController {
     //gets model , sends data to view and returns that view(model is sending behind the scenes)
     @RequestMapping(value = "/boss/addForm", method = RequestMethod.GET)
     public String getForm(Model model) {
-        //mail to boss and boss must type password(login is email)
+        //mail to boss and boss must type password(username <==> email)
         model.addAttribute("boss", new Employee());
         return "admin/boss/addForm";
     }
 
     @RequestMapping(value = "boss/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("boss") Employee boss) {
-        //validation later
+        //TODO validation -server and client side
         boss.setPosition(Position.BOSS);
+        //temporary before fully implement password feature
         boss.setPassword(new BCryptPasswordEncoder().encode("1234"));
         employeeService.create(boss);
         return "admin/boss/menu";
@@ -58,5 +59,4 @@ public class AdminController {
         model.addAttribute("admin",admin);
         return "admin/index";
     }
-
 }

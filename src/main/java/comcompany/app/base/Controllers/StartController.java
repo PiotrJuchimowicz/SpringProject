@@ -31,8 +31,7 @@ public class StartController {
     }
 
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
-    public String index(HttpServletRequest request) {
-        //print user with data
+    public String index() {
         log.info("User logged: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         UserDetails userDetails =
                 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();

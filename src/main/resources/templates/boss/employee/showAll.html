@@ -24,7 +24,6 @@
             <th scope="col" style="cursor: pointer"
                 th:onclick="'rowClicked(\''+'?filtered=false&sortBy=' + ${field} + '\');'" th:each="field : ${fields}"
                 th:text="${field}">
-                <!-- style="cursor: pointer"  th:onclick="'rowClicked(\''+'?arg=' + ${field} + '\');'"-->
             </th>
         </tr>
         </thead>

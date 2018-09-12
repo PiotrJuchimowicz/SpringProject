@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class OwnErrorController implements ErrorController {
     @RequestMapping("/error")
     public String handleError() {
-        //send mail to admin with logs ... - LATER
+        //send mail to admin with logs containing statistics ... - TODO
         return "error";
     }
     @Override

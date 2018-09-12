@@ -5,22 +5,21 @@
     <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
     <title>Please login</title>
 </head>
-<body >
+<body>
 <div class="container">
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
         <h1 class="display-4">Welcome to the start page </h1>
         <hr class="my-4">
     </div>
-    <form   name="loginForm"  th:action="@{/loginProcessing}" method="post">
-        <!--<div class="form-row">-->
-            <div class="form-group col-md-4">
-                <label for="username">Username:</label>
-                <input name="username" type="text" class="form-control" id="username">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="password">Password:</label>
-                <input name="password" type="password" class="form-control" id="password">
-            </div>
+    <form name="loginForm" th:action="@{/loginProcessing}" method="post">
+        <div class="form-group col-md-4">
+            <label for="username">Username:</label>
+            <input name="username" type="text" class="form-control" id="username">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="password">Password:</label>
+            <input name="password" type="password" class="form-control" id="password">
+        </div>
         <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Login</button>
         <button type="reset" class="btn btn-primary">Reset</button>
     </form>

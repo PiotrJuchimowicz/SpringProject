@@ -40,5 +40,4 @@ public class Task {
         this.endDate = endDate;
         this.priority = priority;
     }
-
 }
