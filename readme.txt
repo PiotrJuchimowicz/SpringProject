@@ -8,7 +8,7 @@ Technology stack:
 -Hibernate
 -MySQL
 -Maven
--Project Lombok(I recommend installing  Lombok plugin in IDE)
+-Project Lombok(I recommend installing  Lombok plugin in IDEA)
 -Thymelaf as template engine 
 
 You can login using super admin account with:
