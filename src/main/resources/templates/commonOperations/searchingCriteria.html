@@ -6,19 +6,23 @@
     <title>Show selection</title>
 </head>
 <body>
-<div class="container" style="font-size: 20px">
-    <div th:replace="admin/index.html :: navbar"></div>
-    </nav>
+<div class="container" style="font-size: 20px" th:object="${authority}">
+    <th:block th:if="${authority.equalsIgnoreCase('BOSS')}" >
+        <div th:replace="boss/index.html :: navbar"></div>
+    </th:block>
+    <th:block th:if="${authority.equalsIgnoreCase('ADMIN')}" >
+        <div  th:replace="admin/index.html :: navbar" ></div>
+    </th:block>
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
         <p class="lead">Select searching criteria</p>
         <hr class="my-4">
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="/admin/boss/showAll">Search for all bosses</a>
+            <a class="nav-link active" href="/commonOperations/showAll">Search for all</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Search for boss by criteria</a>
+            <a class="nav-link" href="/commonOperations/searchForm">Search using criteria</a>
         </li>
     </ul>
 </div>

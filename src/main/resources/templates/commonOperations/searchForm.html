@@ -8,11 +8,13 @@
 <body>
 <div class="container">
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
+        <p class="lead">Enter searching criteria</p>
+        <hr class="my-4">
     </div>
     <br>
     <br>
     <form action="#"
-          th:action="@{/boss/employee/showFiltered}" method="post">
+          th:action="@{/commonOperations/showFiltered}" method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="name">Name:</label>
@@ -63,7 +65,7 @@
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="submit" class="btn btn-primary">Search</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
-                <a href="/boss/employee/searchingCriteria" class="btn btn-info" role="button">Return </a>
+                <a href="/commonOperations/searchingCriteria" class="btn btn-info" role="button">Return </a>
             </div>
         </div>
     </form>

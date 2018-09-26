@@ -12,13 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
-public class StartController {
-    public final Logger log = LoggerFactory.getLogger(StartController.class);
+public class LoginController {
+    public final Logger log = LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping(value = "/")
     public String homepageRedirection() {
@@ -57,6 +54,6 @@ public class StartController {
 
     @RequestMapping(value = "/badLogin", method = RequestMethod.GET)
     public String badLogin() {
-        return "/badLogin";
+        return "badLogin";
     }
 }

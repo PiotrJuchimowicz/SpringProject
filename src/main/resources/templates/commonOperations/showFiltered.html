@@ -6,21 +6,27 @@
     <title>All employees</title>
     <script>
         function rowClicked(value) {
-            location.href = "/boss/employee/sortBy" + value;
+            location.href = "/commonOperations/sortBy" + value;
         }
     </script>
 </head>
 <body>
 <div class="container">
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
-        <h1 class="display-5">All bosses:</h1>
+        <h1 class="display-5">Selected users:</h1>
         <hr class="my-4">
-        <p> Select option or click the attribute to sort employees</p>
+        <p> Select option or click the attribute to sort them</p>
     </div>
-    <table class="table table-hover" th:object="${employees}" >
+    <table class="table table-hover" th:object="${employees}">
         <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col" th:if="${!employees.isEmpty()}">#</th>
+            <th:block th:each="field : ${fields}">
+                <th:block th:object="${requirementWrappers}">
+                    <th scope="col" style="cursor: pointer" th:text="${field}"
+                        th:onclick="'rowClicked(\''+'?filtered=true&sortBy=' + ${field}+ '&name='+${requirementWrappers.get('name')}+ '&surname='+${requirementWrappers.get('surname')} + '&email='+${requirementWrappers.get('email')}+ '&city='+${requirementWrappers.get('city')}+ '&lowerLimit='+${requirementWrappers.get('lowerLimit')}+'&upperLimit='+${requirementWrappers.get('upperLimit')} + '&position='+${requirementWrappers.get('position')} + '\');'"></th>
+                </th:block>
+            </th:block>
         </tr>
         </thead>
         <tbody>
@@ -42,10 +48,10 @@
                         </button>
                         <div class="dropdown-menu">
                             <a class="dropdown-item"
-                               href="#">Update</a>
+                               th:href="@{/commonOperations/updateForm(filtered=false,id=${employee.id})}">Update</a>
                             <a class="dropdown-item"
-                               href="#">Delete</a>
-                            <a class="dropdown-item" href="#">Related tasks</a>
+                               th:href="@{/commonOperations/delete(filtered=false,id=${employee.id})}">Delete</a>
+                            <a class="dropdown-item" href="/boss/index">Related tasks</a>
                         </div>
                     </div>
                 </td>
@@ -54,9 +60,8 @@
         </tbody>
         <br>
     </table>
-    <a href="/admin/index" class="btn btn-info" role="button">Return to homepage</a>
-    <a href="/admin/boss/searchingCriteria" class="btn btn-info" role="button">Continue searching</a>
-    <a href="#" class="btn btn-info" role="button">Refresh</a>
+    <a href="/homepage" class="btn btn-info" role="button">Return to homepage</a>
+    <a href="/commonOperations/searchingCriteria" class="btn btn-info" role="button">Continue searching</a>
 </div>
 <div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
 </body>

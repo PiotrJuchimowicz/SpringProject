@@ -6,18 +6,24 @@
     <title>Employee mangement</title>
 </head>
 <body>
-<div class="container" style="font-size: 20px">
-    <div th:replace="boss/index.html :: navbar"></div>
+<div class="container" style="font-size: 20px" th:object="${authority}">
+    <th:block th:if="${authority.equalsIgnoreCase('BOSS')}" >
+        <div th:replace="boss/index.html :: navbar"></div>
+    </th:block>
+    <th:block th:if="${authority.equalsIgnoreCase('ADMIN')}" >
+        <div  th:replace="admin/index.html :: navbar" ></div>
+    </th:block>
+
     <div class="jumbotron" style="background-color:inherit;justify-content: space-between">
-        <p class="lead">Welcome to employees management page</p>
+        <p class="lead">Welcome on management page</p>
         <hr class="my-4">
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="/boss/employee/addForm">Add employee</a>
+            <a class="nav-link active" href="/commonOperations/addForm">Add</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/boss/employee/searchingCriteria">Search for employees</a>
+            <a class="nav-link" href="/commonOperations/searchingCriteria">Search</a>
         </li>
     </ul>
 </div>

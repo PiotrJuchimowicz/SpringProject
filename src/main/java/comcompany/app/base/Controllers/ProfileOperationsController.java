@@ -5,7 +5,6 @@ import comcompany.app.base.Services.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -23,9 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 
 //TODO move refactored profiles there
 @Controller
-public class CommonController {
+public class ProfileOperationsController {
     private EmployeeService employeeService;
-    private final Logger log = LoggerFactory.getLogger(CommonController.class);
+    private final Logger log = LoggerFactory.getLogger(ProfileOperationsController.class);
 
     @Autowired
     public void setEmployeeService(EmployeeService employeeService)

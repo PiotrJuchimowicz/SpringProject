@@ -1,23 +1,24 @@
-<!--TODO client validation-->
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <div th:replace="bootstrapTemplate.html :: bootstrapMeta"></div>
-    <title>Add Employee Form</title>
+    <title>Update Employee Form</title>
 </head>
 <body>
 <div class="container">
     <br>
     <br>
     <div class="jumbotron" style="background-color: inherit;justify-content: space-between">
-        <h1 class="display-4">Welcome to employee adding page! </h1>
+        <h1 class="display-4">Welcome to employee updating page! </h1>
         <hr class="my-4">
-        <p>Enter data below to add a new employee:</p>
+        <p>Enter data below to update employee:</p>
     </div>
     <br>
-    <form action="#" th:action="@{/boss/employee/add}" th:object="${employee}" method="post">
+    <form action="#" th:action="@{/commonOperations/update}" th:object="${employee}" method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
+                <input type="hidden" th:name="id" th:value="${employee.id}"/>
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" placeholder="Enter name" required th:field="*{name}">
             </div>
@@ -29,20 +30,19 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
+                <label for="city">City:</label>
+                <input type="text" class="form-control" id="city" placeholder="Enter city" required th:field="*{city}">
+            </div>
+            <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
                 <input type="email" class="form-control" id="email" placeholder="Enter e-mail" required
                        th:field="*{email}">
             </div>
-            <div class="form-group col-md-6">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter password" required
-                       th:field="*{password}">
-            </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="city">City:</label>
-                <input type="text" class="form-control" id="city" placeholder="Enter city" required th:field="*{city}">
+                <label for="salary">Salary:</label>
+                <input type="number" class="form-control" id="salary" required th:field="*{salary}">
             </div>
             <div class="form-group col-md-6">
                 <label>Position:</label>
@@ -52,18 +52,13 @@
                 </select>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="salary">Salary:</label>
-                <input type="number" class="form-control" id="salary" required th:field="*{salary}">
-            </div>
-        </div>
         <br>
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary">Update</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
-            <a href="/boss/employee/menu" class="btn btn-info" role="button">Return</a>
+            <a href="/homepage" class="btn btn-info" role="button">Return</a>
         </div>
+        <input type="hidden" th:field="*{password}">
     </form>
 </div>
 <div th:replace="bootstrapTemplate.html :: bootstrapOptional"></div>
