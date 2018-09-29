@@ -22,7 +22,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminIndexController {
-
     private EmployeeService employeeService;
 
     @Autowired
@@ -39,5 +38,4 @@ public class AdminIndexController {
         model.addAttribute("admin", admin);
         return "admin/index";
     }
-
 }
